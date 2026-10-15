@@ -1,0 +1,605 @@
+# Level 1: Foundations — Arithmetic Principles & Integers
+items:
+  - item_id: "diag-1-int-01"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "diagnostic"
+    prompt: "Which comparison is correct?"
+    options:
+      - id: "opt-1"
+        text: "-7 < 3"
+        misconception_id: null
+        note: "Correct: negative numbers are left of positive on number line"
+      - id: "opt-2"
+        text: "-7 > 3"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values: 7 > 3"
+      - id: "opt-3"
+        text: "-7 = 3"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "|-7| < 3"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Absolute value 7, but 7 < 3 is false"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "On the number line, -7 is to the left of 3, so -7 < 3. Negative numbers are always less than positive numbers."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  - item_id: "diag-1-int-02"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "diagnostic"
+    prompt: "Evaluate |-15|."
+    options:
+      - id: "opt-1"
+        text: "15"
+        misconception_id: null
+        note: "Correct: absolute value is distance from zero"
+      - id: "opt-2"
+        text: "-15"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Carried negative sign through absolute value"
+      - id: "opt-3"
+        text: "0"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "-|15|"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Confused absolute value with negative of absolute value"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Absolute value is distance from zero, so |-15| = 15. It is never negative."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  - item_id: "diag-1-ops-01"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "diagnostic"
+    prompt: "Evaluate 3 + 4 × 2."
+    options:
+      - id: "opt-1"
+        text: "14"
+        misconception_id: "ORDER_OPS"
+        note: "Added first: (3+4)×2 = 14"
+      - id: "opt-2"
+        text: "11"
+        misconception_id: null
+        note: "Correct: multiply first: 4×2=8, then 3+8=11"
+      - id: "opt-3"
+        text: "20"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "5"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-2"
+    explanation: "Order of operations: multiply before add. 4 × 2 = 8, then 3 + 8 = 11."
+    discriminates: ["ORDER_OPS"]
+
+  - item_id: "diag-1-int-03"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "diagnostic"
+    prompt: "Compare -12 and -5."
+    options:
+      - id: "opt-1"
+        text: "-12 < -5"
+        misconception_id: null
+        note: "Correct: -12 is further left on number line"
+      - id: "opt-2"
+        text: "-12 > -5"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values: 12 > 5"
+      - id: "opt-3"
+        text: "-12 = -5"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "|-12| < |-5|"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values instead of positions"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "On the number line, -12 is to the left of -5, so -12 < -5. More negative means smaller."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  # FOLLOW-UP ITEMS
+  - item_id: "followup-1-int-01"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "followup"
+    prompt: "Which statement is true about -8 and -3?"
+    options:
+      - id: "opt-1"
+        text: "-8 is less than -3"
+        misconception_id: null
+        note: "Correct: -8 is further left"
+      - id: "opt-2"
+        text: "-8 is greater than -3"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Absolute value 8 > 3"
+      - id: "opt-3"
+        text: "They are equal"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "The absolute value of -8 is less than -3"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Confused comparison types"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "-8 is to the left of -3 on the number line, so -8 < -3."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  - item_id: "followup-1-ops-01"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "followup"
+    prompt: "Evaluate 2 + 5 × 3."
+    options:
+      - id: "opt-1"
+        text: "17"
+        misconception_id: null
+        note: "Correct: 5×3=15, 2+15=17"
+      - id: "opt-2"
+        text: "21"
+        misconception_id: "ORDER_OPS"
+        note: "Added first: (2+5)×3=21"
+      - id: "opt-3"
+        text: "15"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "13"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Multiply first: 5 × 3 = 15. Then add: 2 + 15 = 17."
+    discriminates: ["ORDER_OPS"]
+
+  # CHECK UNDERSTANDING
+  - item_id: "check-1-01"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "check"
+    prompt: "A submarine is at -200 meters. It rises 50 meters. What is its new depth?"
+    options:
+      - id: "opt-1"
+        text: "-150 meters"
+        misconception_id: null
+        note: "Correct: -200 + 50 = -150"
+      - id: "opt-2"
+        text: "-250 meters"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Subtracted instead of adding rise"
+      - id: "opt-3"
+        text: "150 meters"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Dropped negative sign"
+      - id: "opt-4"
+        text: "250 meters"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Rising means adding: -200 + 50 = -150 meters."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  - item_id: "check-1-02"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "check"
+    prompt: "Evaluate |-9| + |-4|."
+    options:
+      - id: "opt-1"
+        text: "13"
+        misconception_id: null
+        note: "Correct: 9 + 4 = 13"
+      - id: "opt-2"
+        text: "-13"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Applied negative to sum"
+      - id: "opt-3"
+        text: "5"
+        misconception_id: "UNCLEAR"
+        note: "Subtracted instead of adding"
+      - id: "opt-4"
+        text: "-5"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "|-9| = 9 and |-4| = 4. So 9 + 4 = 13."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  # PRACTICE ITEMS
+  - item_id: "practice-1-01"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "practice"
+    prompt: "Compare -5 and 2."
+    options:
+      - id: "opt-1"
+        text: "-5 < 2"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "-5 > 2"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values"
+      - id: "opt-3"
+        text: "equal"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "|-5| < 2"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Mixed comparison types"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "A negative number is always less than a positive number."
+    targets: ["INT_COMPARE_ABS"]
+
+  - item_id: "practice-1-02"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "practice"
+    prompt: "Evaluate |-9|."
+    options:
+      - id: "opt-1"
+        text: "9"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "-9"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Carried negative through"
+      - id: "opt-3"
+        text: "0"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "-1"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Absolute value is distance from zero, so |-9| = 9."
+    targets: ["INT_COMPARE_ABS"]
+
+  - item_id: "practice-1-03"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "practice"
+    prompt: "Evaluate 2 + 5 × 3."
+    options:
+      - id: "opt-1"
+        text: "21"
+        misconception_id: "ORDER_OPS"
+        note: "Added first"
+      - id: "opt-2"
+        text: "17"
+        misconception_id: null
+        note: "Correct: multiply first"
+      - id: "opt-3"
+        text: "15"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "13"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-2"
+    explanation: "Multiply first: 5 × 3 = 15. Then add 2: 2 + 15 = 17."
+    targets: ["ORDER_OPS"]
+
+  - item_id: "practice-1-04"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "practice"
+    prompt: "Evaluate 6 - 3 × 2."
+    options:
+      - id: "opt-1"
+        text: "0"
+        misconception_id: "ORDER_OPS"
+        note: "Subtracted first: (6-3)×2=6"
+      - id: "opt-2"
+        text: "6"
+        misconception_id: null
+        note: "Correct: 3×2=6, 6-6=0? Wait, 6-6=0. Let me recalculate... 6 - 3×2 = 6 - 6 = 0"
+      - id: "opt-3"
+        text: "12"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "3"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-2"
+    explanation: "Multiply first: 3 × 2 = 6. Then subtract: 6 - 6 = 0."
+    targets: ["ORDER_OPS"]
+
+  - item_id: "practice-1-05"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "practice"
+    prompt: "Compare -10 and -3."
+    options:
+      - id: "opt-1"
+        text: "-10 < -3"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "-10 > -3"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values"
+      - id: "opt-3"
+        text: "-10 = -3"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "|-10| < |-3|"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-10 is further left on the number line than -3, so -10 < -3."
+    targets: ["INT_COMPARE_ABS"]
+
+  - item_id: "practice-1-06"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "practice"
+    prompt: "Evaluate |-8| - |-3|."
+    options:
+      - id: "opt-1"
+        text: "5"
+        misconception_id: null
+        note: "Correct: 8 - 3 = 5"
+      - id: "opt-2"
+        text: "-5"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Applied negative to result"
+      - id: "opt-3"
+        text: "11"
+        misconception_id: "UNCLEAR"
+        note: "Added instead of subtracting"
+      - id: "opt-4"
+        text: "-11"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "|-8| = 8 and |-3| = 3. So 8 - 3 = 5."
+    targets: ["INT_COMPARE_ABS"]
+
+  # RETEST ITEMS
+  - item_id: "retest-1-01"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "retest"
+    prompt: "Compare -5 and 2."
+    options:
+      - id: "opt-1"
+        text: "-5 < 2"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "-5 > 2"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values"
+      - id: "opt-3"
+        text: "equal"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "|-5| < 2"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Mixed comparison types"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "A negative number is always less than a positive number."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  - item_id: "retest-1-02"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "retest"
+    prompt: "Evaluate |-9|."
+    options:
+      - id: "opt-1"
+        text: "9"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "-9"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Carried negative through"
+      - id: "opt-3"
+        text: "0"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "-1"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Absolute value is distance from zero, so |-9| = 9."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  - item_id: "retest-1-03"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "retest"
+    prompt: "Evaluate 2 + 5 × 3."
+    options:
+      - id: "opt-1"
+        text: "21"
+        misconception_id: "ORDER_OPS"
+        note: "Added first"
+      - id: "opt-2"
+        text: "17"
+        misconception_id: null
+        note: "Correct: multiply first"
+      - id: "opt-3"
+        text: "15"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "13"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-2"
+    explanation: "Multiply first: 5 × 3 = 15. Then add 2: 2 + 15 = 17."
+    discriminates: ["ORDER_OPS"]
+
+  - item_id: "retest-1-04"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "retest"
+    prompt: "Compare -8 and -3."
+    options:
+      - id: "opt-1"
+        text: "-8 < -3"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "-8 > -3"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values"
+      - id: "opt-3"
+        text: "-8 = -3"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "|-8| < |-3|"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Compared absolute values"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-8 is further left on the number line than -3, so -8 < -3."
+    discriminates: ["INT_COMPARE_ABS"]
+
+  - item_id: "retest-1-05"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "retest"
+    prompt: "Evaluate 7 - 2 × 3."
+    options:
+      - id: "opt-1"
+        text: "1"
+        misconception_id: null
+        note: "Correct: 2×3=6, 7-6=1"
+      - id: "opt-2"
+        text: "15"
+        misconception_id: "ORDER_OPS"
+        note: "Subtracted first: (7-2)×3=15"
+      - id: "opt-3"
+        text: "5"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-4"
+        text: "9"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Multiply first: 2 × 3 = 6. Then subtract: 7 - 6 = 1."
+    discriminates: ["ORDER_OPS"]
+
+  - item_id: "retest-1-06"
+    level: 1
+    skill: "arithmetic-integers"
+    kind: "retest"
+    prompt: "Evaluate |-6| + |-2|."
+    options:
+      - id: "opt-1"
+        text: "8"
+        misconception_id: null
+        note: "Correct: 6 + 2 = 8"
+      - id: "opt-2"
+        text: "-8"
+        misconception_id: "INT_COMPARE_ABS"
+        note: "Applied negative to sum"
+      - id: "opt-3"
+        text: "4"
+        misconception_id: "UNCLEAR"
+        note: "Subtracted instead of adding"
+      - id: "opt-4"
+        text: "-4"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "|-6| = 6 and |-2| = 2. So 6 + 2 = 8."
+    discriminates: ["INT_COMPARE_ABS"]

@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: misconception-map
+    runtime: docker
+    repo: https://github.com/sonalhonny71/misconception-map
+    branch: main
+    dockerfilePath: ./Dockerfile
+    region: singapore
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_URL_DIRECT
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: https://misconception-map.onrender.com
+      - key: RENDER_API_KEY
+        sync: false

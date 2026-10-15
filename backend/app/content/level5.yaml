@@ -1,0 +1,665 @@
+# Level 5: Challenge Lab — Real-World Transfer & Inequalities
+items:
+  - item_id: "diag-5-linear-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "diagnostic"
+    prompt: "If y = 3x + 2, find y when x = 4."
+    options:
+      - id: "opt-1"
+        text: "14"
+        misconception_id: null
+        note: "Correct: 3×4+2=14"
+      - id: "opt-2"
+        text: "10"
+        misconception_id: "SUBST_ORDER"
+        note: "3+4+2=9? or 3×2+4=10"
+      - id: "opt-3"
+        text: "8"
+        misconception_id: "SUBST_ORDER"
+        note: "4+2=6? or 3+4=7? unclear"
+      - id: "opt-4"
+        text: "16"
+        misconception_id: "SUBST_ORDER"
+        note: "3×4=12, then 12+4=16? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 4: y = 3 × 4 + 2 = 12 + 2 = 14."
+    discriminates: ["SUBST_ORDER"]
+
+  - item_id: "diag-5-ineq-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "diagnostic"
+    prompt: "Solve 2x - 5 > 3."
+    options:
+      - id: "opt-1"
+        text: "x > 4"
+        misconception_id: null
+        note: "Correct: 2x > 8, x > 4"
+      - id: "opt-2"
+        text: "x < 4"
+        misconception_id: "INEQ_FLIP"
+        note: "Flipped sign incorrectly"
+      - id: "opt-3"
+        text: "x > 1"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 5 from 3: 2x > -2? unclear"
+      - id: "opt-4"
+        text: "x < 1"
+        misconception_id: "INV_ORDER"
+        note: "Multiple errors"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Add 5 to both sides: 2x > 8. Divide by 2: x > 4. (No sign flip since dividing by positive 2.)"
+    discriminates: ["INEQ_FLIP", "INV_ORDER"]
+
+  - item_id: "diag-5-system-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "diagnostic"
+    prompt: "If x + y = 7 and x = 3, find y."
+    options:
+      - id: "opt-1"
+        text: "4"
+        misconception_id: null
+        note: "Correct: 3 + y = 7, y = 4"
+      - id: "opt-2"
+        text: "10"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 3 + 7 = 10"
+      - id: "opt-3"
+        text: "-4"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 7 - 3 = 4, then negative? unclear"
+      - id: "opt-4"
+        text: "0"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 3: 3 + y = 7. Subtract 3 from both sides: y = 4."
+    discriminates: ["INV_WRONG_OP"]
+
+  - item_id: "diag-5-ineq-neg-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "diagnostic"
+    prompt: "Solve -3x > 9."
+    options:
+      - id: "opt-1"
+        text: "x < -3"
+        misconception_id: null
+        note: "Correct: divide by -3, flip sign"
+      - id: "opt-2"
+        text: "x > -3"
+        misconception_id: "INEQ_FLIP"
+        note: "Did not flip sign when dividing by negative"
+      - id: "opt-3"
+        text: "x < 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 3 instead of -3, flipped sign"
+      - id: "opt-4"
+        text: "x > 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 3, no flip"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Divide both sides by -3. Since -3 is negative, flip the inequality: x < -3."
+    discriminates: ["INEQ_FLIP", "INV_NEG_DIV"]
+
+  # FOLLOW-UP ITEMS
+  - item_id: "followup-5-linear-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "followup"
+    prompt: "If y = 5x - 3 and x = 3, find y."
+    options:
+      - id: "opt-1"
+        text: "12"
+        misconception_id: null
+        note: "Correct: 5×3-3=12"
+      - id: "opt-2"
+        text: "15"
+        misconception_id: "SUBST_ORDER"
+        note: "5×3=15, ignored -3"
+      - id: "opt-3"
+        text: "18"
+        misconception_id: "SUBST_ORDER"
+        note: "5×3=15, then 15+3=18"
+      - id: "opt-4"
+        text: "8"
+        misconception_id: "SUBST_ORDER"
+        note: "3-3=0? or 5+3=8"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 3: y = 5 × 3 - 3 = 15 - 3 = 12."
+    discriminates: ["SUBST_ORDER"]
+
+  - item_id: "followup-5-ineq-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "followup"
+    prompt: "Solve 3x - 7 > 5."
+    options:
+      - id: "opt-1"
+        text: "x > 4"
+        misconception_id: null
+        note: "Correct: 3x > 12, x > 4"
+      - id: "opt-2"
+        text: "x < 4"
+        misconception_id: "INEQ_FLIP"
+        note: "Flipped sign incorrectly"
+      - id: "opt-3"
+        text: "x > 1"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 7 from 5: 3x > -2? unclear"
+      - id: "opt-4"
+        text: "x < 1"
+        misconception_id: "INV_ORDER"
+        note: "Multiple errors"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Add 7: 3x > 12. Divide by 3: x > 4. (No sign flip since dividing by positive 3.)"
+    discriminates: ["INEQ_FLIP", "INV_ORDER"]
+
+  - item_id: "followup-5-system-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "followup"
+    prompt: "If x + y = 10 and x = 4, find y."
+    options:
+      - id: "opt-1"
+        text: "6"
+        misconception_id: null
+        note: "Correct: 4 + y = 10, y = 6"
+      - id: "opt-2"
+        text: "14"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 4 + 10 = 14"
+      - id: "opt-3"
+        text: "-6"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 10 - 4 = 6, then negative? unclear"
+      - id: "opt-4"
+        text: "4"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 4: 4 + y = 10. Subtract 4: y = 6."
+    discriminates: ["INV_WRONG_OP"]
+
+  - item_id: "followup-5-ineq-neg-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "followup"
+    prompt: "Solve -2x > 6."
+    options:
+      - id: "opt-1"
+        text: "x < -3"
+        misconception_id: null
+        note: "Correct: divide by -2, flip sign"
+      - id: "opt-2"
+        text: "x > -3"
+        misconception_id: "INEQ_FLIP"
+        note: "Did not flip sign when dividing by negative"
+      - id: "opt-3"
+        text: "x < 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2, flipped sign"
+      - id: "opt-4"
+        text: "x > 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2, no flip"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Divide by -2, flip inequality: x < -3."
+    discriminates: ["INEQ_FLIP", "INV_NEG_DIV"]
+
+  # CHECK UNDERSTANDING
+  - item_id: "check-5-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "check"
+    prompt: "A taxi charges $3 per mile plus a $2 flat fee. Write an inequality for rides costing more than $14."
+    options:
+      - id: "opt-1"
+        text: "3x + 2 > 14"
+        misconception_id: null
+        note: "Correct: cost = 3x+2, more than 14"
+      - id: "opt-2"
+        text: "3x + 2 < 14"
+        misconception_id: "INEQ_FLIP"
+        note: "Wrong direction"
+      - id: "opt-3"
+        text: "3x - 2 > 14"
+        misconception_id: "SUBST_ORDER"
+        note: "Subtracted fee instead of adding"
+      - id: "opt-4"
+        text: "2x + 3 > 14"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Swapped coefficient and constant"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Cost = 3x + 2. More than $14 means 3x + 2 > 14."
+    discriminates: ["INEQ_FLIP", "SUBST_ORDER", "LIKE_UNLIKE"]
+
+  - item_id: "check-5-02"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "check"
+    prompt: "Which inequality has the solution x < 2?"
+    options:
+      - id: "opt-1"
+        text: "-2x > -4"
+        misconception_id: null
+        note: "Correct: divide by -2, flip: x < 2"
+      - id: "opt-2"
+        text: "2x > 4"
+        misconception_id: "INEQ_FLIP"
+        note: "Solution x > 2"
+      - id: "opt-3"
+        text: "-2x < -4"
+        misconception_id: "INEQ_FLIP"
+        note: "Solution x > 2"
+      - id: "opt-4"
+        text: "2x < 4"
+        misconception_id: "INV_WRONG_OP"
+        note: "Solution x < 2, but dividing by positive 2 doesn't test flip"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "-2x > -4. Divide by -2, flip: x < 2."
+    discriminates: ["INEQ_FLIP"]
+
+  # PRACTICE ITEMS
+  - item_id: "practice-5-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "practice"
+    prompt: "If y = 5x - 3 and x = 3, find y."
+    options:
+      - id: "opt-1"
+        text: "12"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "15"
+        misconception_id: "SUBST_ORDER"
+        note: "Ignored -3"
+      - id: "opt-3"
+        text: "18"
+        misconception_id: "SUBST_ORDER"
+        note: "Added 3 instead of subtracting"
+      - id: "opt-4"
+        text: "8"
+        misconception_id: "SUBST_ORDER"
+        note: "5+3=8? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 3: y = 5 × 3 - 3 = 15 - 3 = 12."
+    targets: ["SUBST_ORDER"]
+
+  - item_id: "practice-5-02"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "practice"
+    prompt: "Solve 3x - 7 > 5."
+    options:
+      - id: "opt-1"
+        text: "x > 4"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x < 4"
+        misconception_id: "INEQ_FLIP"
+        note: "Flipped sign incorrectly"
+      - id: "opt-3"
+        text: "x > 1"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 7 from 5"
+      - id: "opt-4"
+        text: "x < 1"
+        misconception_id: "INV_ORDER"
+        note: "Multiple errors"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Add 7: 3x > 12. Divide by 3: x > 4."
+    targets: ["INEQ_FLIP", "INV_ORDER"]
+
+  - item_id: "practice-5-03"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "practice"
+    prompt: "If x + y = 10 and x = 4, find y."
+    options:
+      - id: "opt-1"
+        text: "6"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "14"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added instead of subtracting"
+      - id: "opt-3"
+        text: "-6"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted then made negative"
+      - id: "opt-4"
+        text: "4"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 4: 4 + y = 10. Subtract 4: y = 6."
+    targets: ["INV_WRONG_OP"]
+
+  - item_id: "practice-5-04"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "practice"
+    prompt: "Solve -2x > 6."
+    options:
+      - id: "opt-1"
+        text: "x < -3"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x > -3"
+        misconception_id: "INEQ_FLIP"
+        note: "Did not flip sign"
+      - id: "opt-3"
+        text: "x < 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2, flipped"
+      - id: "opt-4"
+        text: "x > 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2, no flip"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Divide by -2, flip inequality: x < -3."
+    targets: ["INEQ_FLIP", "INV_NEG_DIV"]
+
+  - item_id: "practice-5-05"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "practice"
+    prompt: "A phone plan costs $20/month plus $0.10 per text. Write an inequality for bills over $30."
+    options:
+      - id: "opt-1"
+        text: "20 + 0.10x > 30"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "20 + 0.10x < 30"
+        misconception_id: "INEQ_FLIP"
+        note: "Wrong direction"
+      - id: "opt-3"
+        text: "20 - 0.10x > 30"
+        misconception_id: "SUBST_ORDER"
+        note: "Subtracted per-text cost"
+      - id: "opt-4"
+        text: "0.10x + 30 > 20"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Swapped terms"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Cost = 20 + 0.10x. Over $30 means 20 + 0.10x > 30."
+    targets: ["INEQ_FLIP", "SUBST_ORDER", "LIKE_UNLIKE"]
+
+  - item_id: "practice-5-06"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "practice"
+    prompt: "Solve -4x + 8 < 0."
+    options:
+      - id: "opt-1"
+        text: "x > 2"
+        misconception_id: null
+        note: "Correct: -4x < -8, x > 2"
+      - id: "opt-2"
+        text: "x < 2"
+        misconception_id: "INEQ_FLIP"
+        note: "Did not flip when dividing by -4"
+      - id: "opt-3"
+        text: "x > -2"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 4, flipped"
+      - id: "opt-4"
+        text: "x < -2"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 4, no flip"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 8: -4x < -8. Divide by -4, flip: x > 2."
+    targets: ["INEQ_FLIP", "INV_NEG_DIV"]
+
+  # RETEST ITEMS
+  - item_id: "retest-5-01"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "retest"
+    prompt: "If y = 5x - 3 and x = 3, find y."
+    options:
+      - id: "opt-1"
+        text: "12"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "15"
+        misconception_id: "SUBST_ORDER"
+        note: "Ignored -3"
+      - id: "opt-3"
+        text: "18"
+        misconception_id: "SUBST_ORDER"
+        note: "Added 3 instead of subtracting"
+      - id: "opt-4"
+        text: "8"
+        misconception_id: "SUBST_ORDER"
+        note: "5+3=8? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 3: y = 5 × 3 - 3 = 15 - 3 = 12."
+    discriminates: ["SUBST_ORDER"]
+
+  - item_id: "retest-5-02"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "retest"
+    prompt: "Solve 3x - 7 > 5."
+    options:
+      - id: "opt-1"
+        text: "x > 4"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x < 4"
+        misconception_id: "INEQ_FLIP"
+        note: "Flipped sign incorrectly"
+      - id: "opt-3"
+        text: "x > 1"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 7 from 5"
+      - id: "opt-4"
+        text: "x < 1"
+        misconception_id: "INV_ORDER"
+        note: "Multiple errors"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Add 7: 3x > 12. Divide by 3: x > 4."
+    discriminates: ["INEQ_FLIP", "INV_ORDER"]
+
+  - item_id: "retest-5-03"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "retest"
+    prompt: "If x + y = 10 and x = 4, find y."
+    options:
+      - id: "opt-1"
+        text: "6"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "14"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added instead of subtracting"
+      - id: "opt-3"
+        text: "-6"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted then made negative"
+      - id: "opt-4"
+        text: "4"
+        misconception_id: "UNCLEAR"
+        note: "No clear pattern"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 4: 4 + y = 10. Subtract 4: y = 6."
+    discriminates: ["INV_WRONG_OP"]
+
+  - item_id: "retest-5-04"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "retest"
+    prompt: "Solve -2x > 6."
+    options:
+      - id: "opt-1"
+        text: "x < -3"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x > -3"
+        misconception_id: "INEQ_FLIP"
+        note: "Did not flip sign"
+      - id: "opt-3"
+        text: "x < 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2, flipped"
+      - id: "opt-4"
+        text: "x > 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2, no flip"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Divide by -2, flip inequality: x < -3."
+    discriminates: ["INEQ_FLIP", "INV_NEG_DIV"]
+
+  - item_id: "retest-5-05"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "retest"
+    prompt: "A taxi charges $4/mile plus $1 flat fee. Write inequality for rides costing more than $21."
+    options:
+      - id: "opt-1"
+        text: "4x + 1 > 21"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "4x + 1 < 21"
+        misconception_id: "INEQ_FLIP"
+        note: "Wrong direction"
+      - id: "opt-3"
+        text: "4x - 1 > 21"
+        misconception_id: "SUBST_ORDER"
+        note: "Subtracted fee"
+      - id: "opt-4"
+        text: "x + 4 > 21"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Swapped coefficient and constant"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Cost = 4x + 1. More than $21 means 4x + 1 > 21."
+    discriminates: ["INEQ_FLIP", "SUBST_ORDER", "LIKE_UNLIKE"]
+
+  - item_id: "retest-5-06"
+    level: 5
+    skill: "transfer-inequalities"
+    kind: "retest"
+    prompt: "Solve -3x + 6 < 0."
+    options:
+      - id: "opt-1"
+        text: "x > 2"
+        misconception_id: null
+        note: "Correct: -3x < -6, x > 2"
+      - id: "opt-2"
+        text: "x < 2"
+        misconception_id: "INEQ_FLIP"
+        note: "Did not flip when dividing by -3"
+      - id: "opt-3"
+        text: "x > -2"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 3, flipped"
+      - id: "opt-4"
+        text: "x < -2"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 3, no flip"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 6: -3x < -6. Divide by -3, flip: x > 2."
+    discriminates: ["INEQ_FLIP", "INV_NEG_DIV"]

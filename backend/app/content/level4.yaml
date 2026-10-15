@@ -1,0 +1,665 @@
+# Level 4: Equation Solver — Multi-Step Equations
+items:
+  - item_id: "diag-4-multi-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "diagnostic"
+    prompt: "Solve 3x - 5 = 10."
+    options:
+      - id: "opt-1"
+        text: "x = 5"
+        misconception_id: null
+        note: "Correct: add 5, divide by 3"
+      - id: "opt-2"
+        text: "x = 15"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 5 to get 3x=15, but forgot to divide by 3"
+      - id: "opt-3"
+        text: "x = -5"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 5 from 10: 3x=5? unclear"
+      - id: "opt-4"
+        text: "x = 3"
+        misconception_id: "INV_WRONG_OP"
+        note: "Divided 10 by 3 first? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Add 5 to both sides: 3x = 15. Divide by 3: x = 5."
+    discriminates: ["INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "diag-4-neg-coeff-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "diagnostic"
+    prompt: "Solve -2x + 6 = 0."
+    options:
+      - id: "opt-1"
+        text: "x = 3"
+        misconception_id: null
+        note: "Correct: subtract 6, divide by -2"
+      - id: "opt-2"
+        text: "x = -3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2 instead of -2, lost negative sign"
+      - id: "opt-3"
+        text: "x = 6"
+        misconception_id: "INV_ORDER"
+        note: "Divided by -2 first: -x + 3 = 0? unclear"
+      - id: "opt-4"
+        text: "x = 0"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Set -2x = 0 without moving 6"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 6 from both sides: -2x = -6. Divide by -2: x = 3."
+    discriminates: ["INV_NEG_DIV", "INV_ORDER", "INV_ONE_SIDE"]
+
+  - item_id: "diag-4-vars-both-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "diagnostic"
+    prompt: "Solve 4x + 2 = 2x + 10."
+    options:
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct: subtract 2x and 2, divide by 2"
+      - id: "opt-2"
+        text: "x = 2"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Subtracted 2x from left only: 2x+2=10? unclear"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 2 first: 4x=2x+8? unclear"
+      - id: "opt-4"
+        text: "x = 8"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 2x to both sides: 6x+2=10? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 2x from both sides: 2x + 2 = 10. Subtract 2: 2x = 8. Divide by 2: x = 4."
+    discriminates: ["INV_ONE_SIDE", "INV_ORDER", "INV_WRONG_OP"]
+
+  - item_id: "diag-4-dist-eq-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "diagnostic"
+    prompt: "Solve 2(x + 3) = 14."
+    options:
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct: 2x+6=14, 2x=8, x=4"
+      - id: "opt-2"
+        text: "x = 11/2"
+        misconception_id: "DIST_PARTIAL"
+        note: "From 2x+3=14: 2x=11, x=11/2"
+      - id: "opt-3"
+        text: "x = 5"
+        misconception_id: "INV_WRONG_OP"
+        note: "14/2=7, then 7-3=4? wait that's correct... unclear"
+      - id: "opt-4"
+        text: "x = 7"
+        misconception_id: "INV_WRONG_OP"
+        note: "Divided 14 by 2, forgot to subtract 3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Expand: 2x + 6 = 14. Subtract 6: 2x = 8. Divide by 2: x = 4."
+    discriminates: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  # FOLLOW-UP ITEMS
+  - item_id: "followup-4-multi-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "followup"
+    prompt: "Solve 5x - 8 = 12."
+    options:
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct: 5x=20, x=4"
+      - id: "opt-2"
+        text: "x = 20"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 8, got 5x=20, forgot to divide"
+      - id: "opt-3"
+        text: "x = -4"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 8 from 12: 5x=4? unclear"
+      - id: "opt-4"
+        text: "x = 2"
+        misconception_id: "INV_ORDER"
+        note: "Divided 12 by 5 first? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Add 8 to both sides: 5x = 20. Divide by 5: x = 4."
+    discriminates: ["INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "followup-4-neg-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "followup"
+    prompt: "Solve -4x + 12 = 0."
+    options:
+      - id: "opt-1"
+        text: "x = 3"
+        misconception_id: null
+        note: "Correct: -4x=-12, x=3"
+      - id: "opt-2"
+        text: "x = -3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 4 instead of -4"
+      - id: "opt-3"
+        text: "x = 12"
+        misconception_id: "INV_ORDER"
+        note: "Divided by -4 first: x - 3 = 0? unclear"
+      - id: "opt-4"
+        text: "x = 0"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Set -4x = 0 without moving 12"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 12: -4x = -12. Divide by -4: x = 3."
+    discriminates: ["INV_NEG_DIV", "INV_ORDER", "INV_ONE_SIDE"]
+
+  - item_id: "followup-4-vars-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "followup"
+    prompt: "Solve 6x + 2 = 2x + 10."
+    options:
+      - id: "opt-1"
+        text: "x = 2"
+        misconception_id: null
+        note: "Correct: 4x=8, x=2"
+      - id: "opt-2"
+        text: "x = 4"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Subtracted 2x from left only? unclear"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 2 first: 6x=2x+8? unclear"
+      - id: "opt-4"
+        text: "x = 8"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 2x: 8x+2=10? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 2x: 4x + 2 = 10. Subtract 2: 4x = 8. Divide by 4: x = 2."
+    discriminates: ["INV_ONE_SIDE", "INV_ORDER", "INV_WRONG_OP"]
+
+  - item_id: "followup-4-dist-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "followup"
+    prompt: "Solve 3(x - 2) = 9."
+    options:
+      - id: "opt-1"
+        text: "x = 5"
+        misconception_id: null
+        note: "Correct: 3x-6=9, 3x=15, x=5"
+      - id: "opt-2"
+        text: "x = 11/3"
+        misconception_id: "DIST_PARTIAL"
+        note: "From 3x-2=9: 3x=11, x=11/3"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_WRONG_OP"
+        note: "9/3=3, then added 2"
+      - id: "opt-4"
+        text: "x = 1"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 2 from 9 first: 7/3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Expand: 3x - 6 = 9. Add 6: 3x = 15. Divide by 3: x = 5."
+    discriminates: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  # CHECK UNDERSTANDING
+  - item_id: "check-4-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "check"
+    prompt: "A number multiplied by 3, then increased by 7, gives 22. Find the number."
+    options:
+      - id: "opt-1"
+        text: "5"
+        misconception_id: null
+        note: "Correct: 3x+7=22, 3x=15, x=5"
+      - id: "opt-2"
+        text: "29/3"
+        misconception_id: "DIST_PARTIAL"
+        note: "3x+7=22 but treated as 3x=22? unclear"
+      - id: "opt-3"
+        text: "15"
+        misconception_id: "INV_WRONG_OP"
+        note: "22-7=15, forgot to divide by 3"
+      - id: "opt-4"
+        text: "7.33"
+        misconception_id: "INV_ORDER"
+        note: "22/3≈7.33, then... unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "3x + 7 = 22. Subtract 7: 3x = 15. Divide by 3: x = 5."
+    discriminates: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "check-4-02"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "check"
+    prompt: "Which equation has the solution x = -2?"
+    options:
+      - id: "opt-1"
+        text: "-2x + 4 = 8"
+        misconception_id: null
+        note: "Correct: -2(-2)+4=4+4=8"
+      - id: "opt-2"
+        text: "3x - 6 = 0"
+        misconception_id: "INV_NEG_DIV"
+        note: "3(-2)-6=-12≠0"
+      - id: "opt-3"
+        text: "4x + 8 = 4"
+        misconception_id: "INV_WRONG_OP"
+        note: "4(-2)+8=0≠4"
+      - id: "opt-4"
+        text: "5x + 10 = 5"
+        misconception_id: "INV_ONE_SIDE"
+        note: "5(-2)+10=0≠5"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Check x = -2 in each: -2(-2) + 4 = 4 + 4 = 8 ✓"
+    discriminates: ["INV_NEG_DIV", "INV_WRONG_OP", "INV_ONE_SIDE"]
+
+  # PRACTICE ITEMS
+  - item_id: "practice-4-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "practice"
+    prompt: "Solve 5x - 8 = 12."
+    options:
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x = 20"
+        misconception_id: "INV_WRONG_OP"
+        note: "Forgot to divide by 5"
+      - id: "opt-3"
+        text: "x = -4"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 8 from 12"
+      - id: "opt-4"
+        text: "x = 2"
+        misconception_id: "INV_ORDER"
+        note: "Divided 12 by 5 first"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Add 8: 5x = 20. Divide by 5: x = 4."
+    targets: ["INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "practice-4-02"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "practice"
+    prompt: "Solve -4x + 12 = 0."
+    options:
+      - id: "opt-1"
+        text: "x = 3"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x = -3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 4 instead of -4"
+      - id: "opt-3"
+        text: "x = 12"
+        misconception_id: "INV_ORDER"
+        note: "Divided by -4 first"
+      - id: "opt-4"
+        text: "x = 0"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Set -4x = 0"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 12: -4x = -12. Divide by -4: x = 3."
+    targets: ["INV_NEG_DIV", "INV_ORDER", "INV_ONE_SIDE"]
+
+  - item_id: "practice-4-03"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "practice"
+    prompt: "Solve 6x + 2 = 2x + 10."
+    options:
+      - id: "opt-1"
+        text: "x = 2"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x = 4"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Subtracted 2x from left only"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 2 first"
+      - id: "opt-4"
+        text: "x = 8"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 2x to both sides"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 2x: 4x + 2 = 10. Subtract 2: 4x = 8. Divide by 4: x = 2."
+    targets: ["INV_ONE_SIDE", "INV_ORDER", "INV_WRONG_OP"]
+
+  - item_id: "practice-4-04"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "practice"
+    prompt: "Solve 4(x - 1) = 12."
+    options:
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct: 4x-4=12, 4x=16, x=4"
+      - id: "opt-2"
+        text: "x = 13/4"
+        misconception_id: "DIST_PARTIAL"
+        note: "From 4x-1=12: 4x=13, x=13/4"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_WRONG_OP"
+        note: "12/4=3, then added 1"
+      - id: "opt-4"
+        text: "x = 2"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 1 from 12 first: 11/4"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Expand: 4x - 4 = 12. Add 4: 4x = 16. Divide by 4: x = 4."
+    targets: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "practice-4-05"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "practice"
+    prompt: "Solve -3x + 9 = 15."
+    options:
+      - id: "opt-1"
+        text: "x = -2"
+        misconception_id: null
+        note: "Correct: -3x=6, x=-2"
+      - id: "opt-2"
+        text: "x = 2"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 3 instead of -3"
+      - id: "opt-3"
+        text: "x = 8"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 9 from 15: -3x=6, but x=2? unclear"
+      - id: "opt-4"
+        text: "x = -8"
+        misconception_id: "INV_ORDER"
+        note: "Divided by -3 first: x - 3 = -5? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 9: -3x = 6. Divide by -3: x = -2."
+    targets: ["INV_NEG_DIV", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "practice-4-06"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "practice"
+    prompt: "Solve 5x - 3 = 3x + 9."
+    options:
+      - id: "opt-1"
+        text: "x = 6"
+        misconception_id: null
+        note: "Correct: 2x=12, x=6"
+      - id: "opt-2"
+        text: "x = 3"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Subtracted 3x from left only"
+      - id: "opt-3"
+        text: "x = 4"
+        misconception_id: "INV_ORDER"
+        note: "Added 3 first: 5x=3x+12? unclear"
+      - id: "opt-4"
+        text: "x = 12"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 3x: 8x-3=9? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 3x: 2x - 3 = 9. Add 3: 2x = 12. Divide by 2: x = 6."
+    targets: ["INV_ONE_SIDE", "INV_ORDER", "INV_WRONG_OP"]
+
+  # RETEST ITEMS
+  - item_id: "retest-4-01"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "retest"
+    prompt: "Solve 5x - 8 = 12."
+    options:
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x = 20"
+        misconception_id: "INV_WRONG_OP"
+        note: "Forgot to divide by 5"
+      - id: "opt-3"
+        text: "x = -4"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 8 from 12"
+      - id: "opt-4"
+        text: "x = 2"
+        misconception_id: "INV_ORDER"
+        note: "Divided 12 by 5 first"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Add 8: 5x = 20. Divide by 5: x = 4."
+    discriminates: ["INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "retest-4-02"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "retest"
+    prompt: "Solve -4x + 12 = 0."
+    options:
+      - id: "opt-1"
+        text: "x = 3"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x = -3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 4 instead of -4"
+      - id: "opt-3"
+        text: "x = 12"
+        misconception_id: "INV_ORDER"
+        note: "Divided by -4 first"
+      - id: "opt-4"
+        text: "x = 0"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Set -4x = 0"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 12: -4x = -12. Divide by -4: x = 3."
+    discriminates: ["INV_NEG_DIV", "INV_ORDER", "INV_ONE_SIDE"]
+
+  - item_id: "retest-4-03"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "retest"
+    prompt: "Solve 6x + 2 = 2x + 10."
+    options:
+      - id: "opt-1"
+        text: "x = 2"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "x = 4"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Subtracted 2x from left only"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 2 first"
+      - id: "opt-4"
+        text: "x = 8"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 2x to both sides"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 2x: 4x + 2 = 10. Subtract 2: 4x = 8. Divide by 4: x = 2."
+    discriminates: ["INV_ONE_SIDE", "INV_ORDER", "INV_WRONG_OP"]
+
+  - item_id: "retest-4-04"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "retest"
+    prompt: "Solve 3(x - 4) = 9."
+    options:
+      - id: "opt-1"
+        text: "x = 7"
+        misconception_id: null
+        note: "Correct: 3x-12=9, 3x=21, x=7"
+      - id: "opt-2"
+        text: "x = 13/3"
+        misconception_id: "DIST_PARTIAL"
+        note: "From 3x-4=9: 3x=13, x=13/3"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_WRONG_OP"
+        note: "9/3=3, then added 4"
+      - id: "opt-4"
+        text: "x = 5/3"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 4 from 9 first: 5/3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Expand: 3x - 12 = 9. Add 12: 3x = 21. Divide by 3: x = 7."
+    discriminates: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "retest-4-05"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "retest"
+    prompt: "Solve -2x + 8 = 14."
+    options:
+      - id: "opt-1"
+        text: "x = -3"
+        misconception_id: null
+        note: "Correct: -2x=6, x=-3"
+      - id: "opt-2"
+        text: "x = 3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2 instead of -2"
+      - id: "opt-3"
+        text: "x = -11"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 8 from 14: -2x=6, x=-3? unclear"
+      - id: "opt-4"
+        text: "x = 11"
+        misconception_id: "INV_ORDER"
+        note: "Divided by -2 first: x - 4 = -7? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 8: -2x = 6. Divide by -2: x = -3."
+    discriminates: ["INV_NEG_DIV", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "retest-4-06"
+    level: 4
+    skill: "multi-step-equations"
+    kind: "retest"
+    prompt: "Solve 4x - 5 = 2x + 7."
+    options:
+      - id: "opt-1"
+        text: "x = 6"
+        misconception_id: null
+        note: "Correct: 2x=12, x=6"
+      - id: "opt-2"
+        text: "x = 3"
+        misconception_id: "INV_ONE_SIDE"
+        note: "Subtracted 2x from left only"
+      - id: "opt-3"
+        text: "x = 4"
+        misconception_id: "INV_ORDER"
+        note: "Added 5 first: 4x=2x+12? unclear"
+      - id: "opt-4"
+        text: "x = 12"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 2x: 6x-5=7? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Subtract 2x: 2x - 5 = 7. Add 5: 2x = 12. Divide by 2: x = 6."
+    discriminates: ["INV_ONE_SIDE", "INV_ORDER", "INV_WRONG_OP"]

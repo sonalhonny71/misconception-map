@@ -1,0 +1,167 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: '3.12'
+  NODE_VERSION: '20'
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: misconceptionmap
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Alembic migrations
+        working-directory: ./backend
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/misconceptionmap?sslmode=disable
+          DATABASE_URL_DIRECT: postgresql+psycopg://postgres:postgres@localhost:5432/misconceptionmap?sslmode=disable
+          SECRET_KEY: test-secret-key
+          ENV: test
+        run: |
+          alembic upgrade head
+
+      - name: Run backend tests
+        working-directory: ./backend
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/misconceptionmap?sslmode=disable
+          DATABASE_URL_DIRECT: postgresql+psycopg://postgres:postgres@localhost:5432/misconceptionmap?sslmode=disable
+          SECRET_KEY: test-secret-key
+          ENV: test
+        run: |
+          pytest -v --tb=short
+
+      - name: Run content verification tests
+        working-directory: ./backend
+        env:
+          DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/misconceptionmap?sslmode=disable
+          DATABASE_URL_DIRECT: postgresql+psycopg://postgres:postgres@localhost:5432/misconceptionmap?sslmode=disable
+          SECRET_KEY: test-secret-key
+          ENV: test
+        run: |
+          pytest tests/test_content_verification.py -v --tb=short
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: |
+          npm ci
+
+      - name: Type check
+        working-directory: ./frontend
+        run: |
+          npx tsc --noEmit
+
+      - name: Lint
+        working-directory: ./frontend
+        run: |
+          npm run lint
+
+      - name: Run frontend tests
+        working-directory: ./frontend
+        run: |
+          npm run test -- --run
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          npm run build
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t misconception-map:${{ github.sha }} .
+
+      - name: Test Docker image starts
+        run: |
+          docker run -d --name test-app -p 8000:8000 \
+            -e DATABASE_URL=postgresql+psycopg://postgres:postgres@host.docker.internal:5432/misconceptionmap?sslmode=disable \
+            -e DATABASE_URL_DIRECT=postgresql+psycopg://postgres:postgres@host.docker.internal:5432/misconceptionmap?sslmode=disable \
+            -e SECRET_KEY=test-secret \
+            -e ENV=test \
+            misconception-map:${{ github.sha }}
+          sleep 10
+          curl -f http://localhost:8000/api/health || (docker logs test-app && exit 1)
+          docker stop test-app
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for common secret patterns
+        run: |
+          # Check for Neon passwords, Render keys, postgres URLs
+          if git log --all --full-history --oneline --source --remotes --grep="npg_" --grep="rnd_" --grep="postgresql://" | grep -q .; then
+            echo "Potential secrets found in git history!"
+            exit 1
+          fi
+          echo "No secret patterns found in commit messages"
+
+  deploy-render:
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests, docker-build, secret-scan]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Trigger Render deploy
+        run: |
+          echo "Render auto-deploy is configured via render.yaml"
+          echo "Push to main triggers automatic deployment"

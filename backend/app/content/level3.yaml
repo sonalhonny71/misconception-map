@@ -1,0 +1,665 @@
+# Level 3: Algebra Essentials — Distributive Property & Inverse Operations
+items:
+  - item_id: "diag-3-dist-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "diagnostic"
+    prompt: "Rewrite 3(x + 2) = 15 without brackets."
+    options:
+      - id: "opt-1"
+        text: "3x + 6 = 15"
+        misconception_id: null
+        note: "Correct: distribute 3 to both terms"
+      - id: "opt-2"
+        text: "3x + 2 = 15"
+        misconception_id: "DIST_PARTIAL"
+        note: "Multiplier applied only to first term"
+      - id: "opt-3"
+        text: "x + 6 = 15"
+        misconception_id: "DIST_PARTIAL"
+        note: "Multiplier dropped from first term"
+      - id: "opt-4"
+        text: "5x = 15"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined 3x and 2 as like terms"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "To remove brackets, multiply the outside number by every term inside: 3 × x = 3x and 3 × 2 = 6. So 3(x + 2) becomes 3x + 6."
+    discriminates: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "diag-3-dist-02"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "diagnostic"
+    prompt: "Solve 3(x + 2) = 15."
+    options:
+      - id: "opt-1"
+        text: "x = 3"
+        misconception_id: null
+        note: "Correct: 3x+6=15, 3x=9, x=3"
+      - id: "opt-2"
+        text: "x = 13/3"
+        misconception_id: "DIST_PARTIAL"
+        note: "From 3x+2=15: 3x=13, x=13/3"
+      - id: "opt-3"
+        text: "x = 5/3"
+        misconception_id: "LIKE_UNLIKE"
+        note: "From 3x+6=15, combined 3x+6=9x: 9x=15, x=5/3"
+      - id: "opt-4"
+        text: "x = 7"
+        misconception_id: "INV_WRONG_OP"
+        note: "15/3=5, then added 2 instead of subtracting"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "First expand: 3x + 6 = 15. Subtract 6 from both sides: 3x = 9. Divide by 3: x = 3."
+    discriminates: ["DIST_PARTIAL", "LIKE_UNLIKE", "INV_WRONG_OP"]
+
+  - item_id: "diag-3-neg-dist-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "diagnostic"
+    prompt: "Expand -2(x - 5)."
+    options:
+      - id: "opt-1"
+        text: "-2x + 10"
+        misconception_id: null
+        note: "Correct: -2 × x = -2x, -2 × -5 = +10"
+      - id: "opt-2"
+        text: "-2x - 10"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Negative times negative treated as negative"
+      - id: "opt-3"
+        text: "2x - 10"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Sign errors on both terms"
+      - id: "opt-4"
+        text: "2x + 10"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Both signs flipped incorrectly"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Multiply -2 by each term: -2 × x = -2x, and -2 × -5 = +10 (negative times negative is positive)."
+    discriminates: ["DIST_NEG_SIGN"]
+
+  - item_id: "diag-3-inv-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "diagnostic"
+    prompt: "Solve x + 7 = 12."
+    options:
+      - id: "opt-1"
+        text: "x = 5"
+        misconception_id: null
+        note: "Correct: subtract 7 from both sides"
+      - id: "opt-2"
+        text: "x = 19"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 7 instead of subtracting"
+      - id: "opt-3"
+        text: "x = -5"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 12 from 7"
+      - id: "opt-4"
+        text: "x = 84"
+        misconception_id: "INV_WRONG_OP"
+        note: "Multiplied instead of using inverse"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "To undo +7, subtract 7 from both sides: x = 12 - 7 = 5."
+    discriminates: ["INV_WRONG_OP"]
+
+  # FOLLOW-UP ITEMS (discriminating)
+  - item_id: "followup-3-dist-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "followup"
+    prompt: "If x = 4, which expression has the same value as 3(x + 2)?"
+    options:
+      - id: "opt-1"
+        text: "3x + 6"
+        misconception_id: null
+        note: "Correct: 3(4+2)=18, 3×4+6=18"
+      - id: "opt-2"
+        text: "3x + 2"
+        misconception_id: "DIST_PARTIAL"
+        note: "3×4+2=14 ≠ 18"
+      - id: "opt-3"
+        text: "x + 6"
+        misconception_id: "DIST_PARTIAL"
+        note: "4+6=10 ≠ 18"
+      - id: "opt-4"
+        text: "5x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "5×4=20 ≠ 18"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 4: 3(4 + 2) = 3(6) = 18. Check each option: 3x + 6 = 3(4) + 6 = 18. The others give different values."
+    discriminates: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "followup-3-dist-02"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "followup"
+    prompt: "Which expression is equivalent to 4(x + 3)?"
+    options:
+      - id: "opt-1"
+        text: "4x + 12"
+        misconception_id: null
+        note: "Correct: distribute 4 to both terms"
+      - id: "opt-2"
+        text: "4x + 3"
+        misconception_id: "DIST_PARTIAL"
+        note: "Only first term multiplied"
+      - id: "opt-3"
+        text: "x + 12"
+        misconception_id: "DIST_PARTIAL"
+        note: "Multiplier dropped from first term"
+      - id: "opt-4"
+        text: "7x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "4x and 3 combined as like terms"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "4(x + 3) = 4x + 12. The 4 multiplies both x and 3."
+    discriminates: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "followup-3-neg-dist-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "followup"
+    prompt: "If x = 3, which expression equals -3(x - 2)?"
+    options:
+      - id: "opt-1"
+        text: "-3x + 6"
+        misconception_id: null
+        note: "Correct: -3(3-2)=-3, -3×3+6=-3"
+      - id: "opt-2"
+        text: "-3x - 6"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "-3×3-6=-15 ≠ -3"
+      - id: "opt-3"
+        text: "3x - 6"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "3×3-6=3 ≠ -3"
+      - id: "opt-4"
+        text: "3x + 6"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "3×3+6=15 ≠ -3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "-3(x - 2) = -3x + 6. Substitute x = 3: -3(1) = -3, and -3(3) + 6 = -9 + 6 = -3."
+    discriminates: ["DIST_NEG_SIGN"]
+
+  - item_id: "followup-3-inv-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "followup"
+    prompt: "Solve x + 2 = 5."
+    options:
+      - id: "opt-1"
+        text: "x = 3"
+        misconception_id: null
+        note: "Correct: subtract 2 from both sides"
+      - id: "opt-2"
+        text: "x = 7"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 2 instead of subtracting"
+      - id: "opt-3"
+        text: "x = -3"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 5 from 2"
+      - id: "opt-4"
+        text: "x = 10"
+        misconception_id: "INV_WRONG_OP"
+        note: "Multiplied 5 by 2"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "To undo +2, subtract 2 from both sides: x = 5 - 2 = 3."
+    discriminates: ["INV_WRONG_OP"]
+
+  # CHECK UNDERSTANDING (transfer questions for all-correct diagnostic)
+  - item_id: "check-3-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "check"
+    prompt: "A rectangle has length (x + 5) and width 4. Write an expression for its area."
+    options:
+      - id: "opt-1"
+        text: "4x + 20"
+        misconception_id: null
+        note: "Correct: area = 4(x+5) = 4x+20"
+      - id: "opt-2"
+        text: "4x + 5"
+        misconception_id: "DIST_PARTIAL"
+        note: "Partial distribution"
+      - id: "opt-3"
+        text: "x + 20"
+        misconception_id: "DIST_PARTIAL"
+        note: "Multiplier dropped"
+      - id: "opt-4"
+        text: "9x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined 4x and 5"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Area = length × width = 4(x + 5) = 4x + 20."
+    discriminates: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "check-3-02"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "check"
+    prompt: "Which equation has the solution x = 2?"
+    options:
+      - id: "opt-1"
+        text: "3(x - 1) = 3"
+        misconception_id: null
+        note: "Correct: 3(2-1)=3"
+      - id: "opt-2"
+        text: "2(x + 3) = 8"
+        misconception_id: "DIST_PARTIAL"
+        note: "2(2+3)=10 ≠ 8"
+      - id: "opt-3"
+        text: "x + 6 = 10"
+        misconception_id: null
+        note: "2+6=8 ≠ 10"
+      - id: "opt-4"
+        text: "4x - 2 = 4"
+        misconception_id: null
+        note: "4×2-2=6 ≠ 4"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Check x = 2 in each: 3(2 - 1) = 3(1) = 3 ✓"
+    discriminates: ["DIST_PARTIAL"]
+
+  # PRACTICE ITEMS (6+ items, different forms)
+  - item_id: "practice-3-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "practice"
+    prompt: "Expand 4(x + 5)."
+    options:
+      - id: "opt-1"
+        text: "4x + 20"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "4x + 5"
+        misconception_id: "DIST_PARTIAL"
+        note: "Partial distribution"
+      - id: "opt-3"
+        text: "x + 20"
+        misconception_id: "DIST_PARTIAL"
+        note: "Multiplier dropped"
+      - id: "opt-4"
+        text: "9x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined unlike terms"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "4(x + 5) = 4x + 20. Multiply 4 by both x and 5."
+    targets: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "practice-3-02"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "practice"
+    prompt: "Expand (x + 3) · 2."
+    options:
+      - id: "opt-1"
+        text: "2x + 6"
+        misconception_id: null
+        note: "Correct: multiplication commutes"
+      - id: "opt-2"
+        text: "2x + 3"
+        misconception_id: "DIST_PARTIAL"
+        note: "Partial distribution"
+      - id: "opt-3"
+        text: "x + 6"
+        misconception_id: "DIST_PARTIAL"
+        note: "Multiplier dropped"
+      - id: "opt-4"
+        text: "3x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined x and 3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "(x + 3) · 2 = 2x + 6. The multiplier 2 reaches both terms."
+    targets: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "practice-3-03"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "practice"
+    prompt: "Expand -3(x + 4)."
+    options:
+      - id: "opt-1"
+        text: "-3x - 12"
+        misconception_id: null
+        note: "Correct: -3×x=-3x, -3×4=-12"
+      - id: "opt-2"
+        text: "-3x + 12"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Sign error on second term"
+      - id: "opt-3"
+        text: "3x - 12"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Sign error on first term"
+      - id: "opt-4"
+        text: "3x + 12"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Both signs flipped"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-3(x + 4) = -3x - 12. A negative times a positive is negative."
+    targets: ["DIST_NEG_SIGN"]
+
+  - item_id: "practice-3-04"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "practice"
+    prompt: "Solve 2(x - 4) = 10."
+    options:
+      - id: "opt-1"
+        text: "x = 9"
+        misconception_id: null
+        note: "Correct: 2x-8=10, 2x=18, x=9"
+      - id: "opt-2"
+        text: "x = 7"
+        misconception_id: "DIST_PARTIAL"
+        note: "From 2x-4=10: 2x=14, x=7"
+      - id: "opt-3"
+        text: "x = 5"
+        misconception_id: "INV_WRONG_OP"
+        note: "10/2=5, then added 4"
+      - id: "opt-4"
+        text: "x = 1"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 4 first: 2x=6, x=3? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Expand: 2x - 8 = 10. Add 8: 2x = 18. Divide by 2: x = 9."
+    targets: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "practice-3-05"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "practice"
+    prompt: "A garden has length (x + 6) meters and width 5 meters. Its area is 40 m². Find x."
+    options:
+      - id: "opt-1"
+        text: "x = 2"
+        misconception_id: null
+        note: "Correct: 5(x+6)=40, 5x+30=40, 5x=10, x=2"
+      - id: "opt-2"
+        text: "x = 8"
+        misconception_id: "DIST_PARTIAL"
+        note: "5x+6=40, 5x=34, x=6.8≈8"
+      - id: "opt-3"
+        text: "x = 4"
+        misconception_id: "INV_WRONG_OP"
+        note: "40/5=8, then added 6: 14? unclear"
+      - id: "opt-4"
+        text: "x = 14"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 6 from 40 first: 34/5=6.8"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Area = 5(x + 6) = 5x + 30 = 40. Subtract 30: 5x = 10. Divide by 5: x = 2."
+    targets: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "practice-3-06"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "practice"
+    prompt: "Solve -2(x - 3) = 8."
+    options:
+      - id: "opt-1"
+        text: "x = -1"
+        misconception_id: null
+        note: "Correct: -2x+6=8, -2x=2, x=-1"
+      - id: "opt-2"
+        text: "x = 5"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "-2x-6=8, -2x=14, x=-7? or -2x-3=8"
+      - id: "opt-3"
+        text: "x = -5"
+        misconception_id: "INV_NEG_DIV"
+        note: "-2x+6=8, -2x=2, x=-1 but sign flipped"
+      - id: "opt-4"
+        text: "x = 1"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 2 instead of -2"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-2(x - 3) = -2x + 6 = 8. Subtract 6: -2x = 2. Divide by -2: x = -1."
+    targets: ["DIST_NEG_SIGN", "INV_NEG_DIV"]
+
+  # RETEST ITEMS (disjoint from diagnostic/practice/followup/check)
+  - item_id: "retest-3-01"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "retest"
+    prompt: "Expand 5(x + 4)."
+    options:
+      - id: "opt-1"
+        text: "5x + 20"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "5x + 4"
+        misconception_id: "DIST_PARTIAL"
+        note: "Partial distribution"
+      - id: "opt-3"
+        text: "x + 20"
+        misconception_id: "DIST_PARTIAL"
+        note: "Multiplier dropped"
+      - id: "opt-4"
+        text: "9x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined unlike terms"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "5(x + 4) = 5x + 20."
+    discriminates: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "retest-3-02"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "retest"
+    prompt: "Expand -4(x - 3)."
+    options:
+      - id: "opt-1"
+        text: "-4x + 12"
+        misconception_id: null
+        note: "Correct: -4×x=-4x, -4×-3=+12"
+      - id: "opt-2"
+        text: "-4x - 12"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Negative times negative = negative"
+      - id: "opt-3"
+        text: "4x - 12"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "First term sign flipped"
+      - id: "opt-4"
+        text: "4x + 12"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "Both signs flipped"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-4(x - 3) = -4x + 12. Negative times negative is positive."
+    discriminates: ["DIST_NEG_SIGN"]
+
+  - item_id: "retest-3-03"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "retest"
+    prompt: "Solve x + 9 = 15."
+    options:
+      - id: "opt-1"
+        text: "x = 6"
+        misconception_id: null
+        note: "Correct: subtract 9 from both sides"
+      - id: "opt-2"
+        text: "x = 24"
+        misconception_id: "INV_WRONG_OP"
+        note: "Added 9 instead of subtracting"
+      - id: "opt-3"
+        text: "x = -6"
+        misconception_id: "INV_WRONG_OP"
+        note: "Subtracted 15 from 9"
+      - id: "opt-4"
+        text: "x = 135"
+        misconception_id: "INV_WRONG_OP"
+        note: "Multiplied 15 by 9"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "x + 9 = 15. Subtract 9 from both sides: x = 15 - 9 = 6."
+    discriminates: ["INV_WRONG_OP"]
+
+  - item_id: "retest-3-04"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "retest"
+    prompt: "Solve 3(x - 2) = 9."
+    options:
+      - id: "opt-1"
+        text: "x = 5"
+        misconception_id: null
+        note: "Correct: 3x-6=9, 3x=15, x=5"
+      - id: "opt-2"
+        text: "x = 11/3"
+        misconception_id: "DIST_PARTIAL"
+        note: "From 3x-2=9: 3x=11, x=11/3"
+      - id: "opt-3"
+        text: "x = 3"
+        misconception_id: "INV_WRONG_OP"
+        note: "9/3=3, then added 2"
+      - id: "opt-4"
+        text: "x = 1"
+        misconception_id: "INV_ORDER"
+        note: "Subtracted 2 from 9 first: 7/3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "3(x - 2) = 3x - 6 = 9. Add 6: 3x = 15. Divide by 3: x = 5."
+    discriminates: ["DIST_PARTIAL", "INV_WRONG_OP", "INV_ORDER"]
+
+  - item_id: "retest-3-05"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "retest"
+    prompt: "If y = 2(x + 3), what is y when x = 5?"
+    options:
+      - id: "opt-1"
+        text: "16"
+        misconception_id: null
+        note: "Correct: 2(5+3)=16"
+      - id: "opt-2"
+        text: "13"
+        misconception_id: "DIST_PARTIAL"
+        note: "2×5+3=13"
+      - id: "opt-3"
+        text: "8"
+        misconception_id: "DIST_PARTIAL"
+        note: "5+3=8, forgot to multiply by 2"
+      - id: "opt-4"
+        text: "10"
+        misconception_id: "LIKE_UNLIKE"
+        note: "2×5=10, ignored +3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 5: y = 2(5 + 3) = 2(8) = 16."
+    discriminates: ["DIST_PARTIAL", "LIKE_UNLIKE"]
+
+  - item_id: "retest-3-06"
+    level: 3
+    skill: "distributive-inverse"
+    kind: "retest"
+    prompt: "Solve -3(x - 1) = 6."
+    options:
+      - id: "opt-1"
+        text: "x = -1"
+        misconception_id: null
+        note: "Correct: -3x+3=6, -3x=3, x=-1"
+      - id: "opt-2"
+        text: "x = 3"
+        misconception_id: "DIST_NEG_SIGN"
+        note: "-3x-3=6, -3x=9, x=-3? or -3x-1=6"
+      - id: "opt-3"
+        text: "x = 1"
+        misconception_id: "INV_NEG_DIV"
+        note: "Divided by 3 instead of -3"
+      - id: "opt-4"
+        text: "x = -3"
+        misconception_id: "INV_NEG_DIV"
+        note: "Sign error when dividing by -3"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-3(x - 1) = -3x + 3 = 6. Subtract 3: -3x = 3. Divide by -3: x = -1."
+    discriminates: ["DIST_NEG_SIGN", "INV_NEG_DIV"]

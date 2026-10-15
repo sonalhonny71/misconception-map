@@ -1,0 +1,635 @@
+# Level 2: Expressions — Expressions & Like Terms
+items:
+  - item_id: "diag-2-like-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "diagnostic"
+    prompt: "Simplify 3x + 5x - 2."
+    options:
+      - id: "opt-1"
+        text: "8x - 2"
+        misconception_id: null
+        note: "Correct: 3x and 5x are like terms"
+      - id: "opt-2"
+        text: "3x + 3"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined 5x and -2 as like terms"
+      - id: "opt-3"
+        text: "5x - 2"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Dropped 3x term"
+      - id: "opt-4"
+        text: "8x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Dropped constant -2"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "3x and 5x are like terms (both have x), so 3x + 5x = 8x. The -2 is a constant and stays separate: 8x - 2."
+    discriminates: ["LIKE_UNLIKE"]
+
+  - item_id: "diag-2-subst-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "diagnostic"
+    prompt: "If x = 4, evaluate 2x + 3."
+    options:
+      - id: "opt-1"
+        text: "11"
+        misconception_id: null
+        note: "Correct: 2 × 4 + 3 = 11"
+      - id: "opt-2"
+        text: "8"
+        misconception_id: "SUBST_ORDER"
+        note: "2 + 3 = 5, then... unclear"
+      - id: "opt-3"
+        text: "5"
+        misconception_id: "SUBST_ORDER"
+        note: "Forgot to multiply: 4 + 3 = 7? or 2+3=5"
+      - id: "opt-4"
+        text: "14"
+        misconception_id: "SUBST_ORDER"
+        note: "2 × 4 = 8, then 8 × 3? or 2×7=14"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Replace x with 4: 2 × 4 + 3 = 8 + 3 = 11. Multiply before adding."
+    discriminates: ["SUBST_ORDER"]
+
+  - item_id: "diag-2-neg-like-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "diagnostic"
+    prompt: "Simplify -2x + (-3x)."
+    options:
+      - id: "opt-1"
+        text: "-5x"
+        misconception_id: null
+        note: "Correct: -2 + (-3) = -5"
+      - id: "opt-2"
+        text: "-6x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Multiplied coefficients: -2 × -3 = 6, but sign?"
+      - id: "opt-3"
+        text: "5x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Two negatives make positive"
+      - id: "opt-4"
+        text: "-x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Subtracted: -2 - (-3) = 1? or confused"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Add the coefficients: -2 + (-3) = -5. So -2x + (-3x) = -5x."
+    discriminates: ["LIKE_NEG_COEFF"]
+
+  - item_id: "diag-2-like-02"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "diagnostic"
+    prompt: "Simplify 4y - 2y + 7."
+    options:
+      - id: "opt-1"
+        text: "2y + 7"
+        misconception_id: null
+        note: "Correct: 4y - 2y = 2y"
+      - id: "opt-2"
+        text: "2y"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Dropped constant 7"
+      - id: "opt-3"
+        text: "6y + 7"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Added instead of subtracting: 4y + 2y = 6y"
+      - id: "opt-4"
+        text: "9y"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined all terms: 4+2+7=13? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "4y - 2y = 2y. The constant 7 stays: 2y + 7."
+    discriminates: ["LIKE_UNLIKE"]
+
+  # FOLLOW-UP ITEMS
+  - item_id: "followup-2-like-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "followup"
+    prompt: "If x = 3, which expression equals 2x + 5x?"
+    options:
+      - id: "opt-1"
+        text: "21"
+        misconception_id: null
+        note: "Correct: 2×3+5×3=6+15=21"
+      - id: "opt-2"
+        text: "11"
+        misconception_id: "LIKE_UNLIKE"
+        note: "2×3+5=11 (didn't multiply second term)"
+      - id: "opt-3"
+        text: "8"
+        misconception_id: "LIKE_UNLIKE"
+        note: "2+5=7? or 2×3=6+5=11? unclear"
+      - id: "opt-4"
+        text: "15"
+        misconception_id: "SUBST_ORDER"
+        note: "5×3=15, ignored first term"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "2x + 5x = 7x. When x = 3: 7 × 3 = 21."
+    discriminates: ["LIKE_UNLIKE", "SUBST_ORDER"]
+
+  - item_id: "followup-2-neg-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "followup"
+    prompt: "Simplify -4y + (-2y)."
+    options:
+      - id: "opt-1"
+        text: "-6y"
+        misconception_id: null
+        note: "Correct: -4 + (-2) = -6"
+      - id: "opt-2"
+        text: "-2y"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Subtracted: -4 - (-2) = -2"
+      - id: "opt-3"
+        text: "6y"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Two negatives make positive"
+      - id: "opt-4"
+        text: "-8y"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Multiplied: -4 × -2 = 8? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Add the coefficients: -4 + (-2) = -6. So -4y + (-2y) = -6y."
+    discriminates: ["LIKE_NEG_COEFF"]
+
+  - item_id: "followup-2-subst-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "followup"
+    prompt: "If y = 5, evaluate 3y - 2."
+    options:
+      - id: "opt-1"
+        text: "13"
+        misconception_id: null
+        note: "Correct: 3×5-2=15-2=13"
+      - id: "opt-2"
+        text: "17"
+        misconception_id: "SUBST_ORDER"
+        note: "3×5=15, then 15+2=17 (added instead of subtracted)"
+      - id: "opt-3"
+        text: "3"
+        misconception_id: "SUBST_ORDER"
+        note: "5-2=3, forgot to multiply by 3"
+      - id: "opt-4"
+        text: "15"
+        misconception_id: "SUBST_ORDER"
+        note: "3×5=15, ignored -2"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Substitute y = 5: 3 × 5 - 2 = 15 - 2 = 13."
+    discriminates: ["SUBST_ORDER"]
+
+  # CHECK UNDERSTANDING
+  - item_id: "check-2-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "check"
+    prompt: "A rectangle has width x and length x + 4. Write an expression for its perimeter."
+    options:
+      - id: "opt-1"
+        text: "4x + 8"
+        misconception_id: null
+        note: "Correct: P = 2(x + x + 4) = 4x + 8"
+      - id: "opt-2"
+        text: "2x + 4"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Forgot to multiply by 2: x + x + 4"
+      - id: "opt-3"
+        text: "x + 4"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Only one side"
+      - id: "opt-4"
+        text: "4x"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Dropped constant"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "Perimeter = 2 × (width + length) = 2 × (x + x + 4) = 2 × (2x + 4) = 4x + 8."
+    discriminates: ["LIKE_UNLIKE"]
+
+  - item_id: "check-2-02"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "check"
+    prompt: "If a = 2, which expression equals 5a + 3a?"
+    options:
+      - id: "opt-1"
+        text: "16"
+        misconception_id: null
+        note: "Correct: 5×2+3×2=10+6=16"
+      - id: "opt-2"
+        text: "13"
+        misconception_id: "SUBST_ORDER"
+        note: "5×2+3=13"
+      - id: "opt-3"
+        text: "10"
+        misconception_id: "SUBST_ORDER"
+        note: "5×2=10, ignored second term"
+      - id: "opt-4"
+        text: "8"
+        misconception_id: "LIKE_UNLIKE"
+        note: "5+3=8, forgot to multiply by a"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral response"
+    correct_option_id: "opt-1"
+    explanation: "5a + 3a = 8a. When a = 2: 8 × 2 = 16."
+    discriminates: ["SUBST_ORDER", "LIKE_UNLIKE"]
+
+  # PRACTICE ITEMS
+  - item_id: "practice-2-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "practice"
+    prompt: "Simplify 4x + 3x - 1."
+    options:
+      - id: "opt-1"
+        text: "7x - 1"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "7x + 1"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Sign error on constant"
+      - id: "opt-3"
+        text: "12x - 1"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Multiplied coefficients: 4×3=12"
+      - id: "opt-4"
+        text: "4x + 2"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined 3x and -1"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "4x + 3x = 7x. The constant -1 stays: 7x - 1."
+    targets: ["LIKE_UNLIKE"]
+
+  - item_id: "practice-2-02"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "practice"
+    prompt: "If x = 5, evaluate 3x - 2."
+    options:
+      - id: "opt-1"
+        text: "13"
+        misconception_id: null
+        note: "Correct: 3×5-2=13"
+      - id: "opt-2"
+        text: "15"
+        misconception_id: "SUBST_ORDER"
+        note: "3×5=15, ignored -2"
+      - id: "opt-3"
+        text: "8"
+        misconception_id: "SUBST_ORDER"
+        note: "5-2=3? or 3+5=8"
+      - id: "opt-4"
+        text: "17"
+        misconception_id: "SUBST_ORDER"
+        note: "3×5+2=17"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 5: 3 × 5 - 2 = 15 - 2 = 13."
+    targets: ["SUBST_ORDER"]
+
+  - item_id: "practice-2-03"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "practice"
+    prompt: "Simplify -4x + (-2x)."
+    options:
+      - id: "opt-1"
+        text: "-6x"
+        misconception_id: null
+        note: "Correct: -4 + (-2) = -6"
+      - id: "opt-2"
+        text: "-2x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Subtracted instead of adding negatives"
+      - id: "opt-3"
+        text: "6x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Two negatives make positive"
+      - id: "opt-4"
+        text: "-8x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Multiplied coefficients"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Add the coefficients: -4 + (-2) = -6. So -4x + (-2x) = -6x."
+    targets: ["LIKE_NEG_COEFF"]
+
+  - item_id: "practice-2-04"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "practice"
+    prompt: "Simplify 5y - 3y + 2."
+    options:
+      - id: "opt-1"
+        text: "2y + 2"
+        misconception_id: null
+        note: "Correct: 5y - 3y = 2y"
+      - id: "opt-2"
+        text: "2y"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Dropped constant 2"
+      - id: "opt-3"
+        text: "8y + 2"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Added: 5y + 3y = 8y"
+      - id: "opt-4"
+        text: "10y"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Multiplied: 5×3=15? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "5y - 3y = 2y. The constant +2 stays: 2y + 2."
+    targets: ["LIKE_UNLIKE"]
+
+  - item_id: "practice-2-05"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "practice"
+    prompt: "If x = 3, evaluate 2x + 4x."
+    options:
+      - id: "opt-1"
+        text: "18"
+        misconception_id: null
+        note: "Correct: 2×3+4×3=6+12=18"
+      - id: "opt-2"
+        text: "10"
+        misconception_id: "SUBST_ORDER"
+        note: "2×3+4=10"
+      - id: "opt-3"
+        text: "14"
+        misconception_id: "SUBST_ORDER"
+        note: "2+4×3=14"
+      - id: "opt-4"
+        text: "9"
+        misconception_id: "LIKE_UNLIKE"
+        note: "2+4=6? or 3+6=9"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "2x + 4x = 6x. When x = 3: 6 × 3 = 18."
+    targets: ["SUBST_ORDER", "LIKE_UNLIKE"]
+
+  - item_id: "practice-2-06"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "practice"
+    prompt: "Simplify -3a + (-5a) + 4."
+    options:
+      - id: "opt-1"
+        text: "-8a + 4"
+        misconception_id: null
+        note: "Correct: -3 + (-5) = -8"
+      - id: "opt-2"
+        text: "-2a + 4"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Subtracted: -3 - (-5) = 2"
+      - id: "opt-3"
+        text: "8a + 4"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Two negatives make positive"
+      - id: "opt-4"
+        text: "-15a + 4"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Multiplied: -3 × -5 = 15? unclear"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-3a + (-5a) = -8a. The constant +4 stays: -8a + 4."
+    targets: ["LIKE_NEG_COEFF"]
+
+  # RETEST ITEMS
+  - item_id: "retest-2-01"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "retest"
+    prompt: "Simplify 4x + 3x - 1."
+    options:
+      - id: "opt-1"
+        text: "7x - 1"
+        misconception_id: null
+        note: "Correct"
+      - id: "opt-2"
+        text: "7x + 1"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Sign error on constant"
+      - id: "opt-3"
+        text: "12x - 1"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Multiplied coefficients"
+      - id: "opt-4"
+        text: "4x + 2"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Combined 3x and -1"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "4x + 3x = 7x. The constant -1 stays: 7x - 1."
+    discriminates: ["LIKE_UNLIKE"]
+
+  - item_id: "retest-2-02"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "retest"
+    prompt: "If x = 5, evaluate 3x - 2."
+    options:
+      - id: "opt-1"
+        text: "13"
+        misconception_id: null
+        note: "Correct: 3×5-2=13"
+      - id: "opt-2"
+        text: "15"
+        misconception_id: "SUBST_ORDER"
+        note: "3×5=15, ignored -2"
+      - id: "opt-3"
+        text: "8"
+        misconception_id: "SUBST_ORDER"
+        note: "5-2=3? or 3+5=8"
+      - id: "opt-4"
+        text: "17"
+        misconception_id: "SUBST_ORDER"
+        note: "3×5+2=17"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Substitute x = 5: 3 × 5 - 2 = 15 - 2 = 13."
+    discriminates: ["SUBST_ORDER"]
+
+  - item_id: "retest-2-03"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "retest"
+    prompt: "Simplify -4x + (-2x)."
+    options:
+      - id: "opt-1"
+        text: "-6x"
+        misconception_id: null
+        note: "Correct: -4 + (-2) = -6"
+      - id: "opt-2"
+        text: "-2x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Subtracted instead of adding negatives"
+      - id: "opt-3"
+        text: "6x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Two negatives make positive"
+      - id: "opt-4"
+        text: "-8x"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Multiplied coefficients"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "Add the coefficients: -4 + (-2) = -6. So -4x + (-2x) = -6x."
+    discriminates: ["LIKE_NEG_COEFF"]
+
+  - item_id: "retest-2-04"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "retest"
+    prompt: "Simplify 6y - 2y + 3."
+    options:
+      - id: "opt-1"
+        text: "4y + 3"
+        misconception_id: null
+        note: "Correct: 6y - 2y = 4y"
+      - id: "opt-2"
+        text: "4y"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Dropped constant 3"
+      - id: "opt-3"
+        text: "8y + 3"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Added: 6y + 2y = 8y"
+      - id: "opt-4"
+        text: "12y"
+        misconception_id: "LIKE_UNLIKE"
+        note: "Multiplied: 6×2=12"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "6y - 2y = 4y. The constant +3 stays: 4y + 3."
+    discriminates: ["LIKE_UNLIKE"]
+
+  - item_id: "retest-2-05"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "retest"
+    prompt: "If y = 4, evaluate 2y + 3y."
+    options:
+      - id: "opt-1"
+        text: "20"
+        misconception_id: null
+        note: "Correct: 2×4+3×4=8+12=20"
+      - id: "opt-2"
+        text: "11"
+        misconception_id: "SUBST_ORDER"
+        note: "2×4+3=11"
+      - id: "opt-3"
+        text: "14"
+        misconception_id: "SUBST_ORDER"
+        note: "2+3×4=14"
+      - id: "opt-4"
+        text: "9"
+        misconception_id: "LIKE_UNLIKE"
+        note: "2+3=5? or 4+5=9"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "2y + 3y = 5y. When y = 4: 5 × 4 = 20."
+    discriminates: ["SUBST_ORDER", "LIKE_UNLIKE"]
+
+  - item_id: "retest-2-06"
+    level: 2
+    skill: "expressions-like-terms"
+    kind: "retest"
+    prompt: "Simplify -2a + (-3a) + 5."
+    options:
+      - id: "opt-1"
+        text: "-5a + 5"
+        misconception_id: null
+        note: "Correct: -2 + (-3) = -5"
+      - id: "opt-2"
+        text: "-a + 5"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Subtracted: -2 - (-3) = 1"
+      - id: "opt-3"
+        text: "5a + 5"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Two negatives make positive"
+      - id: "opt-4"
+        text: "6a + 5"
+        misconception_id: "LIKE_NEG_COEFF"
+        note: "Multiplied: -2 × -3 = 6"
+      - id: "opt-5"
+        text: "I'm not sure yet"
+        misconception_id: null
+        note: "Neutral"
+    correct_option_id: "opt-1"
+    explanation: "-2a + (-3a) = -5a. The constant +5 stays: -5a + 5."
+    discriminates: ["LIKE_NEG_COEFF"]
