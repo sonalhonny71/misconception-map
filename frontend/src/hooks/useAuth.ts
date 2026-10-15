@@ -30,3 +30,12 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 )
+
+/** Convenience hook used by App and pages */
+export function useAuth() {
+  const learner = useAuthStore((s) => s.learner)
+  const loading = useAuthStore((s) => s.loading)
+  const setLearner = useAuthStore((s) => s.setLearner)
+  const clearLearner = useAuthStore((s) => s.clearLearner)
+  return { learner, loading, setLearner, clearLearner }
+}
