@@ -112,7 +112,10 @@ class DiagnosticEngine:
 
     def _serve_item(self, item: Dict, step_index: int, total_steps: int, phase: Phase, skill: str) -> ServedQuestion:
         """Shuffle options and create a served question."""
-        options = json.loads(item["options"])
+        # Handle both JSON string (from DB) and Python list (from YAML loader)
+        options = item["options"]
+        if isinstance(options, str):
+            options = json.loads(options)
         option_ids = [opt["id"] for opt in options]
         random.shuffle(option_ids)
 
@@ -130,7 +133,7 @@ class DiagnosticEngine:
             correct_option_id=item["correct_option_id"],
             explanation=item["explanation"],
             misconception_id=self._get_distractor_misconception(item, option_ids),
-            discriminates=json.loads(item["discriminates"]) if item.get("discriminates") else [],
+            discriminates=json.loads(item["discriminates"]) if isinstance(item.get("discriminates"), str) else (item.get("discriminates") or []),
             step_index=step_index,
             total_steps=total_steps,
             phase=phase,
@@ -139,7 +142,9 @@ class DiagnosticEngine:
 
     def _get_distractor_misconception(self, item: Dict, chosen_option_id: str) -> Optional[str]:
         """Get the misconception ID for a chosen option, if any."""
-        options = json.loads(item["options"])
+        options = item["options"]
+        if isinstance(options, str):
+            options = json.loads(options)
         for opt in options:
             if opt["id"] == chosen_option_id:
                 return opt.get("misconception_id")
@@ -329,50 +334,63 @@ class DiagnosticEngine:
         return False
 
     def get_next_question(self, state: EngineState) -> Optional[ServedQuestion]:
-        """Get the next question for the current phase."""
+        """Get the next question for the current phase (does not update state)."""
+        # This method is for inspection only. The API layer should call advance_to_next_question.
         if state.phase == Phase.DIAGNOSTIC:
             items = self.content.get_diagnostic_items(state.level)
             if state.step_index < len(items):
                 item = items[state.step_index]
-                served = self._serve_item(item, state.step_index, len(items), Phase.DIAGNOSTIC, state.current_skill)
-                return served
+                return self._serve_item(item, state.step_index, len(items), Phase.DIAGNOSTIC, state.current_skill)
 
         elif state.phase == Phase.FOLLOWUP:
-            # Get follow-up items for the top hypothesis
             top_hyp = self._get_top_hypothesis(state.hypotheses)
             if top_hyp:
                 followup_items = self.content.get_followup_items(state.level, top_hyp)
                 if state.step_index < len(followup_items):
                     item = followup_items[state.step_index]
-                    served = self._serve_item(item, state.step_index, len(followup_items), Phase.FOLLOWUP, state.current_skill)
-                    return served
+                    return self._serve_item(item, state.step_index, len(followup_items), Phase.FOLLOWUP, state.current_skill)
 
         elif state.phase == Phase.CHECK_UNDERSTANDING:
             check_items = self.content.get_check_items(state.level)
             if state.step_index < len(check_items):
                 item = check_items[state.step_index]
-                served = self._serve_item(item, state.step_index, len(check_items), Phase.CHECK_UNDERSTANDING, state.current_skill)
-                return served
+                return self._serve_item(item, state.step_index, len(check_items), Phase.CHECK_UNDERSTANDING, state.current_skill)
 
         elif state.phase == Phase.PRACTICE:
-            # Get practice items for the top hypothesis (or general if insufficient evidence)
             top_hyp = self._get_top_hypothesis(state.hypotheses)
             practice_items = self.content.get_practice_items(state.level, top_hyp, state.responses)
             if state.step_index < len(practice_items):
                 item = practice_items[state.step_index]
-                served = self._serve_item(item, state.step_index, min(3, len(practice_items)), Phase.PRACTICE, state.current_skill)
-                return served
+                return self._serve_item(item, state.step_index, min(3, len(practice_items)), Phase.PRACTICE, state.current_skill)
 
         elif state.phase == Phase.RETEST:
-            # Get fresh retest items (disjoint from seen items)
             seen_item_ids = {r["item_id"] for r in state.responses}
             retest_items = self.content.get_retest_items(state.level, state.current_skill, seen_item_ids)
             if state.step_index < len(retest_items):
                 item = retest_items[state.step_index]
-                served = self._serve_item(item, state.step_index, min(3, len(retest_items)), Phase.RETEST, state.current_skill)
-                return served
+                return self._serve_item(item, state.step_index, min(3, len(retest_items)), Phase.RETEST, state.current_skill)
 
         return None
+
+    def advance_to_next_question(self, state: EngineState) -> Tuple[Optional[ServedQuestion], EngineState]:
+        """Get the next question and return updated state with the question added to served_items."""
+        question = self.get_next_question(state)
+        if not question:
+            return None, state
+        
+        new_state = EngineState(
+            session_id=state.session_id,
+            learner_id=state.learner_id,
+            level=state.level,
+            phase=state.phase,
+            step_index=state.step_index,
+            current_skill=state.current_skill,
+            served_items=state.served_items + [question],
+            responses=state.responses,
+            hypotheses=state.hypotheses,
+            xp_total=state.xp_total,
+        )
+        return question, new_state
 
     def _get_top_hypothesis(self, hypotheses: Dict) -> Optional[str]:
         """Get the misconception ID with highest evidence score."""
@@ -426,7 +444,9 @@ class DiagnosticEngine:
 
             option_text = None
             if r["chosen_option_id"]:
-                options = json.loads(item["options"])
+                options = item["options"]
+                if isinstance(options, str):
+                    options = json.loads(options)
                 for opt in options:
                     if opt["id"] == r["chosen_option_id"]:
                         option_text = opt["text"]

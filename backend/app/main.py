@@ -6,25 +6,27 @@ from contextlib import asynccontextmanager
 import os
 from pathlib import Path
 
-from app.core.config import settings, DATABASE_URL
+from app.core.config import settings, DATABASE_URL, get_settings
 from app.db.session import engine, Base
 from app.api import learners, sessions, insights, progress, health, levels
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: run migrations
-    from alembic.config import Config
-    from alembic import command
-    from app.db.session import get_migration_engine
+    # Startup: run migrations (skip in test mode)
+    settings = get_settings()
+    if settings.env != "test":
+        from alembic.config import Config
+        from alembic import command
+        from app.db.session import get_migration_engine
 
-    try:
-        alembic_cfg = Config("backend/alembic.ini")
-        migration_engine = get_migration_engine()
-        alembic_cfg.attributes["connection"] = migration_engine.connect()
-        command.upgrade(alembic_cfg, "head")
-    except Exception as e:
-        print(f"Migration warning: {e}")
+        try:
+            alembic_cfg = Config("backend/alembic.ini")
+            migration_engine = get_migration_engine()
+            alembic_cfg.attributes["connection"] = migration_engine.connect()
+            command.upgrade(alembic_cfg, "head")
+        except Exception as e:
+            print(f"Migration warning: {e}")
 
     yield
     # Shutdown

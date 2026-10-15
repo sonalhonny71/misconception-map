@@ -62,7 +62,7 @@ def test_diagnostic_to_followup_transition(engine):
     for i in range(4):  # 4 diagnostic questions in level 3
         if state.phase.value != "diagnostic":
             break
-        q = engine.get_next_question(state)
+        q, state = engine.advance_to_next_question(state)
         if not q:
             break
         # Choose DIST_PARTIAL distractor
@@ -86,7 +86,7 @@ def test_all_correct_diagnostic_to_check(engine):
     for i in range(4):
         if state.phase.value != "diagnostic":
             break
-        q = engine.get_next_question(state)
+        q, state = engine.advance_to_next_question(state)
         if not q:
             break
         result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
@@ -102,7 +102,7 @@ def test_followup_can_lower_score(engine):
     state = engine.start_session(learner_id, 3)
     
     # First, get a DIST_PARTIAL signal in diagnostic
-    q = engine.get_next_question(state)
+    q, state = engine.advance_to_next_question(state)
     distractor = next((o for o in q.options if o.get("misconception_id") == "DIST_PARTIAL"), None)
     if distractor:
         result, state = engine.submit_answer(state, q.served_item_id, distractor["id"])
@@ -112,13 +112,13 @@ def test_followup_can_lower_score(engine):
         # Complete diagnostic
         for _ in range(3):
             if state.phase.value == "diagnostic":
-                q = engine.get_next_question(state)
+                q, state = engine.advance_to_next_question(state)
                 if q:
                     result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
         
         # Now in followup, answer correctly (should lower DIST_PARTIAL)
         if state.phase.value == "followup":
-            q = engine.get_next_question(state)
+            q, state = engine.advance_to_next_question(state)
             if q:
                 result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
                 # DIST_PARTIAL score should have decreased due to contradiction
@@ -139,14 +139,14 @@ def test_practice_phase_has_3_questions(engine):
     for _ in range(4):
         if state.phase.value != "diagnostic":
             break
-        q = engine.get_next_question(state)
+        q, state = engine.advance_to_next_question(state)
         if q:
             result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
     
     # Skip check_understanding
     for _ in range(2):
         if state.phase.value == "check_understanding":
-            q = engine.get_next_question(state)
+            q, state = engine.advance_to_next_question(state)
             if q:
                 result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
     
@@ -155,7 +155,7 @@ def test_practice_phase_has_3_questions(engine):
     
     practice_count = 0
     while state.phase.value == "practice":
-        q = engine.get_next_question(state)
+        q, state = engine.advance_to_next_question(state)
         if not q:
             break
         practice_count += 1
@@ -174,7 +174,7 @@ def test_retest_phase_has_3_questions(engine):
     phases = ["diagnostic", "check_understanding", "practice", "retest"]
     for phase in phases:
         while state.phase.value == phase:
-            q = engine.get_next_question(state)
+            q, state = engine.advance_to_next_question(state)
             if not q:
                 break
             result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
@@ -182,7 +182,7 @@ def test_retest_phase_has_3_questions(engine):
     # Count retest questions
     retest_count = 0
     while state.phase.value == "retest":
-        q = engine.get_next_question(state)
+        q, state = engine.advance_to_next_question(state)
         if not q:
             break
         retest_count += 1
@@ -198,7 +198,7 @@ def test_explanation_generation(engine):
     state = engine.start_session(learner_id, 3)
     
     # Answer diagnostic with DIST_PARTIAL
-    q = engine.get_next_question(state)
+    q, state = engine.advance_to_next_question(state)
     distractor = next((o for o in q.options if o.get("misconception_id") == "DIST_PARTIAL"), None)
     if distractor:
         result, state = engine.submit_answer(state, q.served_item_id, distractor["id"])
@@ -206,7 +206,7 @@ def test_explanation_generation(engine):
     # Complete remaining diagnostic
     for _ in range(3):
         if state.phase.value == "diagnostic":
-            q = engine.get_next_question(state)
+            q, state = engine.advance_to_next_question(state)
             if q:
                 result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
     
@@ -231,7 +231,7 @@ def test_compute_progress(engine):
     for i in range(4):
         if state.phase.value != "diagnostic":
             break
-        q = engine.get_next_question(state)
+        q, state = engine.advance_to_next_question(state)
         if q:
             if i < 2:
                 result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
@@ -245,21 +245,21 @@ def test_compute_progress(engine):
     # Skip to practice
     for _ in range(2):
         if state.phase.value == "check_understanding":
-            q = engine.get_next_question(state)
+            q, state = engine.advance_to_next_question(state)
             if q:
                 result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
     
     # Practice: all correct
     for _ in range(3):
         if state.phase.value == "practice":
-            q = engine.get_next_question(state)
+            q, state = engine.advance_to_next_question(state)
             if q:
                 result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
     
     # Retest: 2 correct, 1 wrong
     for i in range(3):
         if state.phase.value == "retest":
-            q = engine.get_next_question(state)
+            q, state = engine.advance_to_next_question(state)
             if q:
                 if i < 2:
                     result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
@@ -282,7 +282,7 @@ def test_single_slip_rule(engine):
     state = engine.start_session(learner_id, 3)
     
     # Answer first question with ARITHMETIC_SLIP distractor
-    q = engine.get_next_question(state)
+    q, state = engine.advance_to_next_question(state)
     slip_distractor = next((o for o in q.options if o.get("misconception_id") == "ARITHMETIC_SLIP"), None)
     
     if slip_distractor:
@@ -291,7 +291,7 @@ def test_single_slip_rule(engine):
         # Complete diagnostic correctly
         for _ in range(3):
             if state.phase.value == "diagnostic":
-                q = engine.get_next_question(state)
+                q, state = engine.advance_to_next_question(state)
                 if q:
                     result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
         

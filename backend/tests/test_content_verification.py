@@ -37,10 +37,38 @@ def test_item_ids_unique(content_loader):
     assert len(ids) == len(set(ids)), "Duplicate item_ids found"
 
 
+def _get_options(item):
+    """Get options as list, handling both YAML (list) and DB (JSON string) formats."""
+    opts = item["options"]
+    if isinstance(opts, str):
+        return json.loads(opts)
+    return opts
+
+
+def _get_discriminates(item):
+    """Get discriminates as list, handling both YAML and DB formats."""
+    disc = item.get("discriminates")
+    if disc is None:
+        return []
+    if isinstance(disc, str):
+        return json.loads(disc)
+    return disc
+
+
+def _get_targets(item):
+    """Get targets as list, handling both YAML and DB formats."""
+    targets = item.get("targets")
+    if targets is None:
+        return []
+    if isinstance(targets, str):
+        return json.loads(targets)
+    return targets
+
+
 def test_correct_option_exists(content_loader):
     """Each item must have exactly one correct option."""
     for item in content_loader.get_all_items():
-        options = json.loads(item["options"])
+        options = _get_options(item)
         correct_ids = [o["id"] for o in options if o["id"] == item["correct_option_id"]]
         assert len(correct_ids) == 1, f"Item {item['item_id']}: correct_option_id not found in options"
 
@@ -48,7 +76,7 @@ def test_correct_option_exists(content_loader):
 def test_no_duplicate_option_texts(content_loader):
     """No duplicate option texts within an item."""
     for item in content_loader.get_all_items():
-        options = json.loads(item["options"])
+        options = _get_options(item)
         texts = [o["text"] for o in options]
         assert len(texts) == len(set(texts)), f"Item {item['item_id']}: duplicate option texts"
 
@@ -58,7 +86,7 @@ def test_no_equivalent_to_correct(content_loader):
     import sympy as sp
     
     for item in content_loader.get_all_items():
-        options = json.loads(item["options"])
+        options = _get_options(item)
         correct_opt = next(o for o in options if o["id"] == item["correct_option_id"])
         
         # Parse correct answer
@@ -82,7 +110,7 @@ def test_correct_option_not_biased(content_loader):
     """Correct options should not always be at index 0."""
     positions = []
     for item in content_loader.get_all_items():
-        options = json.loads(item["options"])
+        options = _get_options(item)
         for i, opt in enumerate(options):
             if opt["id"] == item["correct_option_id"]:
                 positions.append(i)
@@ -117,7 +145,7 @@ def test_katex_rendering(content_loader):
             pass  # Skip if katex-cli not available
         
         # Test options
-        options = json.loads(item["options"])
+        options = _get_options(item)
         for opt in options:
             try:
                 subprocess.run(["npx", "katex-cli", opt["text"]], 
@@ -131,7 +159,7 @@ def test_misconception_ids_valid(content_loader):
     valid_ids = set(MISCONCEPTIONS.keys())
     
     for item in content_loader.get_all_items():
-        options = json.loads(item["options"])
+        options = _get_options(item)
         for opt in options:
             misc_id = opt.get("misconception_id")
             if misc_id and misc_id not in valid_ids:
@@ -143,13 +171,9 @@ def test_discriminates_valid(content_loader):
     valid_ids = set(MISCONCEPTIONS.keys())
     
     for item in content_loader.get_all_items():
-        if item.get("discriminates"):
-            try:
-                disc = json.loads(item["discriminates"])
-                for d in disc:
-                    assert d in valid_ids, f"Item {item['item_id']}: invalid discriminates '{d}'"
-            except json.JSONDecodeError:
-                pass
+        disc = _get_discriminates(item)
+        for d in disc:
+            assert d in valid_ids, f"Item {item['item_id']}: invalid discriminates '{d}'"
 
 
 def test_targets_valid(content_loader):
@@ -157,13 +181,10 @@ def test_targets_valid(content_loader):
     valid_ids = set(MISCONCEPTIONS.keys())
     
     for item in content_loader.get_all_items():
-        if item["kind"] == "practice" and item.get("targets"):
-            try:
-                targets = json.loads(item["targets"])
-                for t in targets:
-                    assert t in valid_ids, f"Item {item['item_id']}: invalid target '{t}'"
-            except json.JSONDecodeError:
-                pass
+        if item["kind"] == "practice":
+            targets = _get_targets(item)
+            for t in targets:
+                assert t in valid_ids, f"Item {item['item_id']}: invalid target '{t}'"
 
 
 def test_engine_state_machine(engine):
@@ -222,7 +243,7 @@ def test_engine_followup_discriminates(engine):
         # Complete diagnostic to trigger follow-up
         for _ in range(3):  # remaining diagnostic questions
             if new_state.phase.value == "diagnostic":
-                next_q = engine.get_next_question(new_state)
+                next_q, new_state = engine.advance_to_next_question(new_state)
                 if next_q:
                     result, new_state = engine.submit_answer(new_state, next_q.served_item_id, next_q.correct_option_id)
         

@@ -1,24 +1,47 @@
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
+
 from app.main import app
-from app.db.session import Base, engine, get_db
+from app.db.session import Base, get_db
 from app.db.models import Learner
-import uuid
+
+
+# Test database
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+
+test_engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
+
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_engine)
+
+
+def override_get_db():
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+@pytest.fixture(autouse=True)
+def setup_database():
+    Base.metadata.create_all(bind=test_engine)
+    yield
+    Base.metadata.drop_all(bind=test_engine)
 
 
 @pytest.fixture
 def client():
-    return TestClient(app)
-
-
-@pytest.fixture
-def db_session():
-    # Create tables
-    Base.metadata.create_all(bind=engine)
-    db = next(get_db())
-    yield db
-    db.close()
-    Base.metadata.drop_all(bind=engine)
+    app.dependency_overrides[get_db] = override_get_db
+    with TestClient(app) as c:
+        yield c
+    app.dependency_overrides.clear()
 
 
 def test_health_endpoint(client):
@@ -31,18 +54,17 @@ def test_health_endpoint(client):
 
 
 def test_create_learner(client):
-    response = client.post("/api/learners")
+    response = client.post("/api/learners", json={})
     assert response.status_code == 201
     data = response.json()
     assert "token" in data
     assert "token_hash" in data
-    assert len(data["token"]) == 64  # 32 bytes = 64 hex chars
+    assert len(data["token"]) == 64
     assert len(data["token_hash"]) == 64
 
 
 def test_learner_auth_flow(client):
-    # Create learner
-    response = client.post("/api/learners")
+    response = client.post("/api/learners", json={})
     assert response.status_code == 201
     learner_data = response.json()
     token = learner_data["token"]
