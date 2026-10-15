@@ -1,5 +1,4 @@
-import { useAuthStore } from './hooks/useAuth'
-
+import { useAuthStore } from '../hooks/useAuth'
 const API_BASE = '/api'
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
