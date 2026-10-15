@@ -37,8 +37,9 @@ def get_settings() -> Settings:
 def get_database_url() -> str:
     settings = get_settings()
     url = settings.database_url
+    # Change both places that do the replace
     if url.startswith("postgresql://"):
-        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
+        url = url.replace("postgresql://", "postgresql+psycopg2://", 1)
     # Ensure sslmode=require is present (skip for SQLite)
     if "sqlite:" not in url and "sslmode=" not in url:
         separator = "&" if "?" in url else "?"
@@ -49,8 +50,9 @@ def get_database_url() -> str:
 def get_database_url_direct() -> str:
     settings = get_settings()
     url = settings.database_url_direct or settings.database_url
+    # Change both places that do the replace
     if url.startswith("postgresql://"):
-        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
+        url = url.replace("postgresql://", "postgresql+psycopg2://", 1)
     if "sqlite:" not in url and "sslmode=" not in url:
         separator = "&" if "?" in url else "?"
         url = f"{url}{separator}sslmode=require"
