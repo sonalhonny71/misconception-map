@@ -2,17 +2,17 @@ from contextlib import asynccontextmanager
 import os
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
 from app.core.config import settings, DATABASE_URL, get_settings
-from app.db.session import engine, Base
+from app.db.session import engine
 from app.api import learners, sessions, insights, progress, health, levels
 
 
-# Application lifespan: run database migrations on startup
+# Application lifespan: run database migrations and load content on startup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app_settings = get_settings()
@@ -22,19 +22,32 @@ async def lifespan(app: FastAPI):
             from alembic.config import Config
             from alembic import command
 
-            # Docker: /app/alembic.ini
-            # Local: backend/alembic.ini
-            ini_path = (
-                "alembic.ini"
-                if Path("alembic.ini").exists()
-                else "backend/alembic.ini"
-            )
+            # Docker: /app/alembic.ini    Local: backend/alembic.ini
+            # (found relative to this file, so it works from any folder)
+            ini_path = Path(__file__).resolve().parent.parent / "alembic.ini"
 
-            alembic_cfg = Config(ini_path)
+            alembic_cfg = Config(str(ini_path))
+            alembic_cfg.set_main_option(
+                "script_location", str(ini_path.parent / "alembic")
+            )
             command.upgrade(alembic_cfg, "head")
 
         except Exception as e:
             print(f"Migration warning: {e}")
+
+        # Copy the YAML questions into the database (safe to repeat)
+        try:
+            from app.content.seed import seed_content
+            from app.db.session import SessionLocal
+
+            db = SessionLocal()
+            try:
+                created, updated = seed_content(db)
+                print(f"Content ready: {created} new, {updated} updated")
+            finally:
+                db.close()
+        except Exception as e:
+            print(f"Content seeding warning: {e}")
 
     yield
 
@@ -47,6 +60,8 @@ app = FastAPI(
     description="Educational diagnostic API for algebra misconceptions",
     version="1.0.0",
     lifespan=lifespan,
+    docs_url="/api/docs",
+    openapi_url="/api/openapi.json",
 )
 
 
@@ -120,6 +135,19 @@ if frontend_dist is not None:
 
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
+        # Unknown API paths should be a real 404, not the web page
+        if full_path == "api" or full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="Not found")
+
+        # Real files in the build folder (favicon, etc.) are served as-is
+        requested = (frontend_dist / full_path).resolve()
+        if (
+            full_path
+            and requested.is_file()
+            and frontend_dist.resolve() in requested.parents
+        ):
+            return FileResponse(str(requested))
+
         index_file = frontend_dist / "index.html"
 
         if index_file.exists():

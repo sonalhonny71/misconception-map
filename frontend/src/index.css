@@ -87,7 +87,7 @@ button {
   gap: 7px;
 }
 
-.nav button {
+.nav .nav-link {
   border: 0;
   background: transparent;
   color: #d5d2ec;
@@ -98,10 +98,12 @@ button {
   align-items: center;
   gap: 12px;
   width: 100%;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.nav button:hover,
-.nav button.active {
+.nav .nav-link:hover,
+.nav .nav-link.active {
   background: #30295f;
   color: #fff;
 }
@@ -540,7 +542,7 @@ button {
 
 @media (max-width: 900px) {
   .shell {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .sidebar {
     padding: 14px;
@@ -557,7 +559,7 @@ button {
     display: flex;
     overflow: auto;
   }
-  .nav button {
+  .nav .nav-link {
     white-space: nowrap;
     padding: 9px 12px;
   }
@@ -601,7 +603,7 @@ button {
   .topbar {
     padding: 0 18px;
   }
-  .nav button {
+  .nav .nav-link {
     font-size: 12px;
   }
   .hero {
@@ -658,4 +660,20 @@ input:focus-visible,
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+/* Long maths or sentences must never push the page wider than the screen */
+.katex-render {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overflow-wrap: anywhere;
+}
+.katex-render .katex-display {
+  margin: 0.4em 0;
+}
+.question-card,
+.card,
+.notice,
+.option {
+  min-width: 0;
 }

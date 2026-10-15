@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { Sidebar } from './components/Sidebar'
 import { TopBar } from './components/TopBar'
 import { Dashboard } from './pages/Dashboard'
@@ -10,11 +11,57 @@ import { Placement } from './pages/Placement'
 import { Journey } from './pages/Journey'
 import { NotFound } from './pages/NotFound'
 import { useAuth } from './hooks/useAuth'
-import { ToastContainer } from './components/Toast'
+import { ToastContainer, useToast } from './components/Toast'
+import { api } from './api/client'
 
+/**
+ * Makes sure there is an anonymous learner (and token) before any page loads.
+ * Pages call the API with that token, so it must exist first.
+ */
 function PrivateRoute({ children }: { children: React.ReactNode }) {
-  const { learner, loading } = useAuth()
-  if (loading) {
+  const { learner, loading, setLearner } = useAuth()
+  const { show } = useToast()
+  const [failed, setFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
+
+  useEffect(() => {
+    if (loading || learner) return
+    let cancelled = false
+    api
+      .createLearner()
+      .then((data) => {
+        if (cancelled) return
+        setLearner({ token: data.token, tokenHash: data.token_hash })
+        show('Welcome! Your learning journey begins now.')
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [loading, learner, setLearner, show, attempt])
+
+  if (failed && !learner) {
+    return (
+      <div className="shell">
+        <div className="main">
+          <main className="content">
+            <div className="empty" role="alert">
+              We couldn't reach the server. It may be waking up (this can take up to ~30 seconds on the free tier).
+              <div className="mt-4">
+                <button className="btn primary" onClick={() => { setFailed(false); setAttempt((n) => n + 1) }}>
+                  Try again
+                </button>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    )
+  }
+
+  if (loading || !learner) {
     return (
       <div className="shell">
         <Sidebar />

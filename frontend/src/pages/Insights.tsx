@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../api/client'
 import { DisplayMath } from '../components/MathDisplay'
-import { AlertCircle, Info, CheckCircle, Clock } from 'lucide-react'
+import { AlertCircle, Info, CheckCircle, XCircle } from 'lucide-react'
 
 const STATUS_ICONS: Record<string, React.ComponentType<any>> = {
   insufficient: Info,
@@ -86,7 +86,7 @@ export function Insights() {
         })}
 
         {/* Recent Evidence */}
-        {insights.recent_evidence?.length && (
+        {insights.recent_evidence?.length > 0 && (
           <div className="card">
             <h3>Recent activity</h3>
             <div className="space-y-3 mt-4">

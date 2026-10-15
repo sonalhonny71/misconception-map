@@ -77,130 +77,18 @@ async def get_current_question(
     if session.status != SessionStatus.IN_PROGRESS:
         raise HTTPException(status_code=409, detail="Session not in progress")
 
-    # Get the next question from the engine
     engine = get_engine()
 
-    # Reconstruct engine state from DB
-    from app.engine.state_machine import EngineState, Phase
-    from uuid import UUID as UUIDClass
-
-    served_items_db = db.query(ServedItem).filter(ServedItem.session_id == session_id).all()
-    responses_db = db.query(Response).filter(Response.session_id == session_id).all()
-    hypotheses_db = db.query(Hypothesis).filter(Hypothesis.learner_id == learner.id).all()
-
-    # Build engine state
-    state = EngineState(
-        session_id=session.id,
-        learner_id=learner.id,
-        level=session.level,
-        phase=Phase(session.phase.value),
-        step_index=session.step_index,
-        current_skill=engine.content.get_primary_skill(session.level),
-    )
-
-    # Restore served items
-    for si in served_items_db:
-        item = db.query(Item).filter(Item.id == si.item_id).first()
-        if item:
-            from app.engine.state_machine import ServedQuestion
-            served = ServedQuestion(
-                item_id=item.item_id,
-                served_item_id=si.id,
-                prompt=item.prompt,
-                options=json.loads(si.option_order),  # This should be the shuffled options
-                option_order=json.loads(si.option_order),
-                correct_option_id=item.correct_option_id,
-                explanation=item.explanation,
-                discriminates=json.loads(item.discriminates) if item.discriminates else [],
-                step_index=session.step_index,
-                total_steps=3,  # placeholder
-                phase=Phase(session.phase.value),
-                skill=engine.content.get_primary_skill(session.level),
-            )
-            state.served_items.append(served)
-
-    # Restore responses
-    for r in responses_db:
-        state.responses.append({
-            "served_item_id": str(r.served_item_id),
-            "item_id": r.item_id,
-            "chosen_option_id": r.chosen_option_id,
-            "is_correct": r.is_correct,
-            "misconception_id": r.misconception_id,
-            "kind": r.kind.value,
-            "phase": r.kind.value,
-            "skill": engine.content.get_primary_skill(session.level),
-            "result": {
-                "is_correct": r.is_correct,
-                "chosen_option_id": r.chosen_option_id,
-                "misconception_id": r.misconception_id,
-                "explanation": "",
-                "step_note": None,
-                "xp_awarded": 0,
-            }
-        })
-
-    # Restore hypotheses
-    for h in hypotheses_db:
-        state.hypotheses[h.misconception_id] = {
-            "score": h.evidence_score,
-            "has_followup": h.evidence_score >= 4,  # rough heuristic
-            "status": h.status.value,
-        }
-
-    # Get next question
-    next_question = engine.get_next_question(state)
+    next_question = _next_question_or_advance(db, session, engine, learner)
 
     if not next_question:
-        # Session complete
+        # Nothing left to ask: the session is complete
         session.status = SessionStatus.COMPLETED
         session.ended_at = datetime.now(timezone.utc)
         db.commit()
         raise HTTPException(status_code=409, detail="Session complete")
 
-    # Save served item to DB if new
-    existing_served = db.query(ServedItem).filter(
-        ServedItem.session_id == session_id,
-        ServedItem.item_id == db.query(Item).filter(Item.item_id == next_question.item_id).first().id
-    ).first()
-
-    if not existing_served:
-        item = db.query(Item).filter(Item.item_id == next_question.item_id).first()
-        served_item = ServedItem(
-            session_id=session_id,
-            item_id=item.id,
-            option_order=json.dumps(next_question.option_order),
-        )
-        db.add(served_item)
-        db.commit()
-        next_question.served_item_id = served_item.id
-
-    # Update session step
-    session.step_index = next_question.step_index
-    session.phase = SessionPhase(next_question.phase.value)
-    db.commit()
-
-    # Build response
-    options_out = [OptionOut(id=opt["id"], text=opt["text"]) for opt in next_question.options]
-
-    phase_labels = {
-        Phase.DIAGNOSTIC: f"Diagnostic · Question {next_question.step_index + 1} of {next_question.total_steps}",
-        Phase.FOLLOWUP: "Follow-up · Gathering evidence",
-        Phase.CHECK_UNDERSTANDING: f"Check Understanding · Question {next_question.step_index + 1} of {next_question.total_steps}",
-        Phase.PRACTICE: f"Targeted practice · Question {next_question.step_index + 1} of 3",
-        Phase.RETEST: f"Fresh retest · Question {next_question.step_index + 1} of 3",
-    }
-
-    return QuestionOut(
-        served_item_id=next_question.served_item_id,
-        item_id=next_question.item_id,
-        prompt=next_question.prompt,
-        options=options_out,
-        step_label=phase_labels.get(next_question.phase, "Question"),
-        phase=next_question.phase,
-        step_index=next_question.step_index,
-        total_steps=next_question.total_steps,
-    )
+    return next_question
 
 
 @router.post("/sessions/{session_id}/answer", response_model=AnswerOut)
@@ -219,9 +107,6 @@ async def submit_answer(
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    if session.status != SessionStatus.IN_PROGRESS:
-        raise HTTPException(status_code=409, detail="Session not in progress")
-
     # Check idempotency - has this served_item already been answered?
     existing_response = db.query(Response).filter(
         Response.session_id == session_id,
@@ -231,6 +116,9 @@ async def submit_answer(
     if existing_response:
         # Return cached result
         return _build_answer_out(existing_response, session, db, learner)
+
+    if session.status != SessionStatus.IN_PROGRESS:
+        raise HTTPException(status_code=409, detail="Session not in progress")
 
     # Get the served item
     served_item = db.query(ServedItem).filter(
@@ -271,26 +159,26 @@ async def submit_answer(
                     step_note = misc["step"]
                 break
 
-    # Determine XP award
-    xp_awarded = 0
-    kind = ResponseKind(session.phase.value)
-    if kind == ResponseKind.PRACTICE:
-        xp_awarded = 50
-    elif kind == ResponseKind.RETEST:
-        xp_awarded = 25
+    engine = get_engine()
+    skill = engine.content.get_primary_skill(session.level)
 
-    # Award XP idempotently
-    if xp_awarded > 0:
+    # The session phase "check_understanding" is stored as response kind "check"
+    kind = _KIND_BY_PHASE[session.phase]
+
+    # Determine XP award (once per session and phase, so retries never double-award)
+    xp_awarded = 0
+    potential_xp = 50 if kind == ResponseKind.PRACTICE else 25 if kind == ResponseKind.RETEST else 0
+    if potential_xp > 0:
         event_key = f"{kind.value}:{session_id}"
         existing_xp = db.query(XPEvent).filter(XPEvent.event_key == event_key).first()
         if not existing_xp:
-            xp_event = XPEvent(
+            db.add(XPEvent(
                 learner_id=learner.id,
                 event_type=kind.value,
                 event_key=event_key,
-                xp_amount=xp_awarded,
-            )
-            db.add(xp_event)
+                xp_amount=potential_xp,
+            ))
+            xp_awarded = potential_xp
 
     # Record response
     response = Response(
@@ -305,17 +193,18 @@ async def submit_answer(
         latency_ms=None,  # Could add from client
     )
     db.add(response)
+    db.flush()
 
     # Update hypotheses
-    _update_hypotheses_db(db, learner.id, engine.content.get_primary_skill(session.level), response, item, session.phase)
+    _update_hypotheses_db(db, learner.id, skill, response, item, session.phase)
 
     # Determine next phase
-    engine = get_engine()
+    previous_phase = session.phase
     next_phase = _determine_next_phase(session, response, engine, db)
 
-    # Update session
+    # Update session: a new phase starts again at step 0
     session.phase = next_phase
-    if next_phase != session.phase:
+    if next_phase != previous_phase:
         session.step_index = 0
     else:
         session.step_index += 1
@@ -323,16 +212,19 @@ async def submit_answer(
     if next_phase == SessionPhase.COMPLETED:
         session.status = SessionStatus.COMPLETED
         session.ended_at = datetime.now(timezone.utc)
-        _finalize_progress(db, learner.id, session.level, engine.content.get_primary_skill(session.level), responses_db=db.query(Response).filter(Response.session_id == session_id).all())
+        _finalize_progress(db, learner.id, session.level, skill, responses_db=db.query(Response).filter(Response.session_id == session_id).all())
 
     db.commit()
 
     # Get next question if not complete
     next_question = None
     if next_phase != SessionPhase.COMPLETED:
-        next_q = _get_next_question_for_session(db, session_id, session, engine, learner)
-        if next_q:
-            next_question = next_q
+        next_question = _next_question_or_advance(db, session, engine, learner)
+        if next_question is None:
+            session.status = SessionStatus.COMPLETED
+            session.ended_at = datetime.now(timezone.utc)
+            _finalize_progress(db, learner.id, session.level, skill, responses_db=db.query(Response).filter(Response.session_id == session_id).all())
+            db.commit()
 
     # Build feedback
     feedback = FeedbackOut(
@@ -341,8 +233,9 @@ async def submit_answer(
         step_note=step_note,
         misconception_id=misconception_id,
         next_phase=next_phase,
-        next_step_label=_get_phase_label(next_phase, session.step_index, 3),
+        next_step_label=next_question.step_label if next_question else _get_phase_label(session.phase, session.step_index, 3),
         xp_awarded=xp_awarded,
+        correct_option_id=item.correct_option_id,
     )
 
     return AnswerOut(
@@ -353,18 +246,41 @@ async def submit_answer(
 
 
 def _build_answer_out(response: Response, session: SessionModel, db: Session, learner: Learner) -> AnswerOut:
-    """Build AnswerOut from existing response (for idempotency)."""
+    """Rebuild the AnswerOut for an answer that was already recorded (idempotent re-submit)."""
     item = db.query(Item).filter(Item.id == response.item_id).first()
+
+    step_note = None
+    if response.misconception_id:
+        step_note = get_misconception(response.misconception_id)["step"]
+
+    # XP is awarded once per session and phase, on the first answer of that phase
+    xp_awarded = 0
+    if response.kind in (ResponseKind.PRACTICE, ResponseKind.RETEST):
+        first_response = db.query(Response).filter(
+            Response.session_id == response.session_id,
+            Response.kind == response.kind,
+        ).order_by(Response.created_at, Response.id).first()
+        if first_response is not None and first_response.id == response.id:
+            event = db.query(XPEvent).filter(
+                XPEvent.event_key == f"{response.kind.value}:{response.session_id}"
+            ).first()
+            xp_awarded = event.xp_amount if event else 0
+
+    next_question = None
+    if session.status == SessionStatus.IN_PROGRESS:
+        next_question = _next_question_or_advance(db, session, get_engine(), learner)
+
     feedback = FeedbackOut(
         is_correct=bool(response.is_correct),
         explanation=item.explanation if item else "",
-        step_note=None,
+        step_note=step_note,
         misconception_id=response.misconception_id,
         next_phase=session.phase,
-        next_step_label=_get_phase_label(session.phase, session.step_index, 3),
-        xp_awarded=0,
+        next_step_label=next_question.step_label if next_question else _get_phase_label(session.phase, session.step_index, 3),
+        xp_awarded=xp_awarded,
+        correct_option_id=item.correct_option_id if item else None,
     )
-    return AnswerOut(feedback=feedback, next_question=None, session=SessionOut.model_validate(session))
+    return AnswerOut(feedback=feedback, next_question=next_question, session=SessionOut.model_validate(session))
 
 
 def _determine_next_phase(session: SessionModel, response: Response, engine: DiagnosticEngine, db: Session) -> SessionPhase:
@@ -416,16 +332,55 @@ def _has_potential_misconception(db: Session, session_id: UUID) -> bool:
     return False
 
 
+_KIND_BY_PHASE = {
+    SessionPhase.DIAGNOSTIC: ResponseKind.DIAGNOSTIC,
+    SessionPhase.FOLLOWUP: ResponseKind.FOLLOWUP,
+    SessionPhase.CHECK_UNDERSTANDING: ResponseKind.CHECK,
+    SessionPhase.PRACTICE: ResponseKind.PRACTICE,
+    SessionPhase.RETEST: ResponseKind.RETEST,
+}
+
+
+def _item_ids_seen_in_other_phases(db: Session, session_id: UUID, phase: SessionPhase) -> set:
+    """Logical item ids already answered in this session in a *different* phase.
+
+    Practice and retest questions must be fresh, but the list for the current phase
+    has to stay stable while the learner moves through it.
+    """
+    rows = (
+        db.query(Item.item_id, Response.kind)
+        .join(Response, Response.item_id == Item.id)
+        .filter(Response.session_id == session_id)
+        .all()
+    )
+    current_kind = _KIND_BY_PHASE.get(phase)
+    return {item_id for item_id, kind in rows if kind != current_kind}
+
+
+def _next_question_or_advance(db: Session, session: SessionModel, engine: DiagnosticEngine, learner: Learner):
+    """Return the question for the session's current step.
+
+    If a phase has no questions at all (for example no follow-up exists for the
+    leading hypothesis), move on to practice instead of getting stuck.
+    """
+    question = _get_next_question_for_session(db, session.id, session, engine, learner)
+    if question is None and session.phase in (SessionPhase.FOLLOWUP, SessionPhase.CHECK_UNDERSTANDING):
+        session.phase = SessionPhase.PRACTICE
+        session.step_index = 0
+        db.commit()
+        question = _get_next_question_for_session(db, session.id, session, engine, learner)
+    return question
+
+
 def _get_next_question_for_session(db: Session, session_id: UUID, session: SessionModel, engine: DiagnosticEngine, learner: Learner):
     """Get next question for session based on phase."""
-    from app.engine.state_machine import ServedQuestion, Phase
-    import json
+    skill = engine.content.get_primary_skill(session.level)
 
     if session.phase == SessionPhase.DIAGNOSTIC:
         items = engine.content.get_diagnostic_items(session.level)
         if session.step_index < len(items):
             item = items[session.step_index]
-            return _serve_item_db(db, session_id, item, session.step_index, len(items), SessionPhase.DIAGNOSTIC, engine.content.get_primary_skill(session.level))
+            return _serve_item_db(db, session_id, item, session.step_index, len(items), SessionPhase.DIAGNOSTIC, skill)
 
     elif session.phase == SessionPhase.FOLLOWUP:
         # Get top hypothesis
@@ -435,70 +390,76 @@ def _get_next_question_for_session(db: Session, session_id: UUID, session: Sessi
             followup_items = engine.content.get_followup_items(session.level, top_hyp.misconception_id)
             if session.step_index < len(followup_items):
                 item = followup_items[session.step_index]
-                return _serve_item_db(db, session_id, item, session.step_index, len(followup_items), SessionPhase.FOLLOWUP, engine.content.get_primary_skill(session.level))
+                return _serve_item_db(db, session_id, item, session.step_index, len(followup_items), SessionPhase.FOLLOWUP, skill)
 
     elif session.phase == SessionPhase.CHECK_UNDERSTANDING:
         check_items = engine.content.get_check_items(session.level)
         if session.step_index < len(check_items):
             item = check_items[session.step_index]
-            return _serve_item_db(db, session_id, item, session.step_index, len(check_items), SessionPhase.CHECK_UNDERSTANDING, engine.content.get_primary_skill(session.level))
+            return _serve_item_db(db, session_id, item, session.step_index, len(check_items), SessionPhase.CHECK_UNDERSTANDING, skill)
 
     elif session.phase == SessionPhase.PRACTICE:
         hypotheses = db.query(Hypothesis).filter(Hypothesis.learner_id == learner.id).all()
         top_hyp = max(hypotheses, key=lambda h: h.evidence_score) if hypotheses else None
-        responses = db.query(Response).filter(Response.session_id == session_id).all()
-        practice_items = engine.content.get_practice_items(session.level, top_hyp.misconception_id if top_hyp else None, responses)
-        if session.step_index < len(practice_items):
+        seen = [{"item_id": i} for i in _item_ids_seen_in_other_phases(db, session_id, SessionPhase.PRACTICE)]
+        practice_items = engine.content.get_practice_items(session.level, top_hyp.misconception_id if top_hyp else None, seen)
+        if session.step_index < min(3, len(practice_items)):
             item = practice_items[session.step_index]
-            return _serve_item_db(db, session_id, item, session.step_index, min(3, len(practice_items)), SessionPhase.PRACTICE, engine.content.get_primary_skill(session.level))
+            return _serve_item_db(db, session_id, item, session.step_index, min(3, len(practice_items)), SessionPhase.PRACTICE, skill)
 
     elif session.phase == SessionPhase.RETEST:
-        seen_item_ids = {r.item_id for r in db.query(Response).filter(Response.session_id == session_id).all()}
-        retest_items = engine.content.get_retest_items(session.level, engine.content.get_primary_skill(session.level), seen_item_ids)
-        if session.step_index < len(retest_items):
+        seen_item_ids = _item_ids_seen_in_other_phases(db, session_id, SessionPhase.RETEST)
+        retest_items = engine.content.get_retest_items(session.level, skill, seen_item_ids)
+        if session.step_index < min(3, len(retest_items)):
             item = retest_items[session.step_index]
-            return _serve_item_db(db, session_id, item, session.step_index, min(3, len(retest_items)), SessionPhase.RETEST, engine.content.get_primary_skill(session.level))
+            return _serve_item_db(db, session_id, item, session.step_index, min(3, len(retest_items)), SessionPhase.RETEST, skill)
 
     return None
 
 
-def _serve_item_db(db: Session, session_id: UUID, item: Item, step_index: int, total_steps: int, phase: SessionPhase, skill: str):
-    """Create served item in DB and return QuestionOut."""
-    import json
+def _serve_item_db(db: Session, session_id: UUID, item_data: dict, step_index: int, total_steps: int, phase: SessionPhase, skill: str):
+    """Serve a content item: create (or re-use) its ServedItem row and return the QuestionOut.
+
+    Re-using the row means refreshing the page shows the same question with the
+    same option order, and the answer can be matched to what was displayed.
+    """
     import random
 
+    item = db.query(Item).filter(Item.item_id == item_data["item_id"]).first()
+    if item is None:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Content item {item_data['item_id']} is missing from the database (run the content seed).",
+        )
+
     options = json.loads(item.options)
-    option_ids = [opt["id"] for opt in options]
-    random.shuffle(option_ids)
-
     opt_map = {opt["id"]: opt for opt in options}
-    shuffled_options = [{"id": oid, "text": opt_map[oid]["text"]} for oid in option_ids]
 
-    served_item = ServedItem(
-        session_id=session_id,
-        item_id=item.id,
-        option_order=json.dumps(shuffled_options),  # Store shuffled options
-    )
-    db.add(served_item)
-    db.commit()
-    db.refresh(served_item)
+    served_item = db.query(ServedItem).filter(
+        ServedItem.session_id == session_id,
+        ServedItem.item_id == item.id,
+    ).first()
 
-    options_out = [{"id": opt["id"], "text": opt["text"]} for opt in shuffled_options]
+    if served_item is None:
+        option_ids = [opt["id"] for opt in options]
+        random.shuffle(option_ids)
+        served_item = ServedItem(
+            session_id=session_id,
+            item_id=item.id,
+            option_order=json.dumps(option_ids),  # option IDs in the order shown
+        )
+        db.add(served_item)
+        db.commit()
+        db.refresh(served_item)
 
-    phase_labels = {
-        SessionPhase.DIAGNOSTIC: f"Diagnostic · Question {step_index + 1} of {total_steps}",
-        SessionPhase.FOLLOWUP: "Follow-up · Gathering evidence",
-        SessionPhase.CHECK_UNDERSTANDING: f"Check Understanding · Question {step_index + 1} of {total_steps}",
-        SessionPhase.PRACTICE: f"Targeted practice · Question {step_index + 1} of 3",
-        SessionPhase.RETEST: f"Fresh retest · Question {step_index + 1} of 3",
-    }
+    option_ids = json.loads(served_item.option_order)
 
     return QuestionOut(
         served_item_id=served_item.id,
         item_id=item.item_id,
         prompt=item.prompt,
-        options=[{"id": o["id"], "text": o["text"]} for o in shuffled_options],
-        step_label=phase_labels.get(phase, "Question"),
+        options=[OptionOut(id=oid, text=opt_map[oid]["text"]) for oid in option_ids],
+        step_label=_get_phase_label(phase, step_index, total_steps),
         phase=phase,
         step_index=step_index,
         total_steps=total_steps,
@@ -536,7 +497,8 @@ def _update_hypotheses_db(db: Session, learner_id: UUID, skill: str, response: R
     elif kind in ("practice", "retest") and misconception_id:
         _adjust_hypothesis(db, learner_id, skill, misconception_id, params["practice_error"])
 
-    # Recalculate statuses
+    # Recalculate statuses (flush first so brand-new hypotheses are included)
+    db.flush()
     hypotheses = db.query(Hypothesis).filter(Hypothesis.learner_id == learner_id, Hypothesis.skill == skill).all()
     for hyp in hypotheses:
         runner_up = max([h.evidence_score for h in hypotheses if h != hyp], default=0)
@@ -576,7 +538,7 @@ def _finalize_progress(db: Session, learner_id: UUID, level: int, skill: str, re
 
     progress = db.query(Progress).filter(Progress.learner_id == learner_id, Progress.skill == skill).first()
     if not progress:
-        progress = Progress(learner_id=learner_id, skill=skill, level=level)
+        progress = Progress(learner_id=learner_id, skill=skill, level=level, retest_count=0)
         db.add(progress)
 
     progress.last_retest_score = retest_correct

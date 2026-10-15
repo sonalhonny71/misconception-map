@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '../api/client'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { api, ApiError } from '../api/client'
 import { useToast } from '../components/Toast'
 import { DisplayMath, InlineMath } from '../components/MathDisplay'
-import { Loader2, CheckCircle, XCircle, AlertCircle, Info } from 'lucide-react'
+import { Loader2, CheckCircle, XCircle } from 'lucide-react'
 
 interface QuestionOption {
   id: string
@@ -30,12 +30,7 @@ interface FeedbackData {
   next_phase: string
   next_step_label: string
   xp_awarded: number
-}
-
-interface AnswerResponse {
-  feedback: FeedbackData
-  next_question: QuestionData | null
-  session: any
+  correct_option_id?: string | null
 }
 
 export function Journey() {
@@ -44,6 +39,7 @@ export function Journey() {
   const levelParam = searchParams.get('level')
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const startedRef = useRef(false)
   const { show } = useToast()
 
   const [session, setSession] = useState<any>(null)
@@ -52,6 +48,8 @@ export function Journey() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
   const [showNext, setShowNext] = useState(false)
+  const [nextQuestion, setNextQuestion] = useState<QuestionData | null>(null)
+  const [sessionDone, setSessionDone] = useState(false)
 
   // Start or resume session
   const startMutation = useMutation({
@@ -73,7 +71,8 @@ export function Journey() {
       setShowNext(false)
       setFeedback(null)
     } catch (e: any) {
-      if (e.message.includes('complete') || e.message.includes('409')) {
+      if (e instanceof ApiError && e.status === 409) {
+        // Session already finished: show the results
         navigate('/progress')
       } else {
         show('Failed to load question', 'error')
@@ -94,22 +93,28 @@ export function Journey() {
         show(`+${data.feedback.xp_awarded} XP!`, 'success')
       }
 
-      if (data.next_question) {
-        setQuestion(data.next_question)
-      } else if (data.session?.status === 'completed') {
-        navigate('/progress')
-      }
+      // Keep showing the answered question (with its feedback) until the learner
+      // presses Continue; the next question is held back until then.
+      setNextQuestion(data.next_question ?? null)
+      setSessionDone(!data.next_question || data.session?.status === 'completed')
+      queryClient.invalidateQueries()
     },
     onError: () => show('Failed to submit answer', 'error'),
   })
 
   // Initialize
   useEffect(() => {
+    if (startedRef.current) return // React StrictMode runs effects twice in development
     if (sessionId === 'new' && levelParam) {
+      startedRef.current = true
       startMutation.mutate(parseInt(levelParam))
-    } else if (sessionId !== 'new') {
+    } else if (sessionId && sessionId !== 'new') {
+      startedRef.current = true
+      setSession({ id: sessionId })
       fetchQuestion(sessionId)
     }
+    // Runs once per page visit on purpose (startedRef guards it)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId, levelParam])
 
   const handleSubmit = () => {
@@ -124,19 +129,26 @@ export function Journey() {
   }
 
   const handleNext = () => {
+    if (sessionDone || !nextQuestion) {
+      navigate('/progress')
+      return
+    }
+    setQuestion(nextQuestion)
+    setNextQuestion(null)
     setSelectedOption(null)
     setSubmitted(false)
     setShowNext(false)
     setFeedback(null)
   }
 
-  if (!question && !startMutation.isPending) {
+  if (!question) {
     return (
-      <div className="skeleton h-8 w-48 mb-4" />
+      <div role="status" aria-live="polite">
+        <div className="skeleton h-8 w-48 mb-4" />
+        <p className="muted">Loading your question…</p>
+      </div>
     )
   }
-
-  if (!question) return null
 
   const phaseLabels: Record<string, string> = {
     diagnostic: `Diagnostic · Question ${question.step_index + 1} of ${question.total_steps}`,
@@ -167,7 +179,7 @@ export function Journey() {
 
       <div id="journey-area">
         <div className="question-card">
-          <span className="pill">LEVEL {session?.level || levelParam} · {LEVEL_INFO[session?.level - 1]?.name?.toUpperCase() || 'ALGEBRA ESSENTIALS'}</span>
+          <span className="pill">LEVEL {session?.level || levelParam} · {LEVEL_INFO[Number(session?.level || levelParam)]?.name?.toUpperCase() || 'ALGEBRA ESSENTIALS'}</span>
           <h2 style={{ marginTop: '16px' }}>
             <DisplayMath children={question.prompt} />
           </h2>
@@ -177,7 +189,7 @@ export function Journey() {
               {question.options.map((option) => (
                 <label
                   key={option.id}
-                  className={`option ${selectedOption === option.id ? 'selected' : ''} ${submitted && option.id === question.correct_option_id ? 'correct' : ''} ${submitted && selectedOption === option.id && !feedback?.is_correct ? 'incorrect' : ''}`}
+                  className={`option ${selectedOption === option.id ? 'selected' : ''} ${submitted && option.id === feedback?.correct_option_id ? 'correct' : ''} ${submitted && selectedOption === option.id && !feedback?.is_correct ? 'incorrect' : ''}`}
                 >
                   <input
                     type="radio"
@@ -236,7 +248,7 @@ export function Journey() {
                 <button
                   type="submit"
                   className="btn primary"
-                  disabled={selectedOption === null && selectedOption !== ''}
+                  disabled={selectedOption === null || answerMutation.isPending}
                   id="answer-submit"
                 >
                   Check answer
@@ -248,7 +260,7 @@ export function Journey() {
                   onClick={handleNext}
                   id="answer-continue"
                 >
-                  {question.step_index < question.total_steps - 1 ? 'Next question →' : 'Continue →'}
+                  {sessionDone ? 'See my progress →' : nextQuestion && nextQuestion.phase !== question.phase ? 'Continue →' : 'Next question →'}
                 </button>
               ) : (
                 <Loader2 className="w-5 h-5 animate-spin text-navy" aria-hidden="true" />

@@ -36,14 +36,14 @@ items:
     kind: "diagnostic"
     prompt: "Evaluate |-15|."
     options:
-      - id: "opt-1"
-        text: "15"
-        misconception_id: null
-        note: "Correct: absolute value is distance from zero"
       - id: "opt-2"
         text: "-15"
         misconception_id: "INT_COMPARE_ABS"
         note: "Carried negative sign through absolute value"
+      - id: "opt-1"
+        text: "15"
+        misconception_id: null
+        note: "Correct: absolute value is distance from zero"
       - id: "opt-3"
         text: "0"
         misconception_id: "UNCLEAR"
@@ -70,14 +70,14 @@ items:
         text: "14"
         misconception_id: "ORDER_OPS"
         note: "Added first: (3+4)×2 = 14"
-      - id: "opt-2"
-        text: "11"
-        misconception_id: null
-        note: "Correct: multiply first: 4×2=8, then 3+8=11"
       - id: "opt-3"
         text: "20"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-2"
+        text: "11"
+        misconception_id: null
+        note: "Correct: multiply first: 4×2=8, then 3+8=11"
       - id: "opt-4"
         text: "5"
         misconception_id: "UNCLEAR"
@@ -96,10 +96,6 @@ items:
     kind: "diagnostic"
     prompt: "Compare -12 and -5."
     options:
-      - id: "opt-1"
-        text: "-12 < -5"
-        misconception_id: null
-        note: "Correct: -12 is further left on number line"
       - id: "opt-2"
         text: "-12 > -5"
         misconception_id: "INT_COMPARE_ABS"
@@ -112,6 +108,10 @@ items:
         text: "|-12| < |-5|"
         misconception_id: "INT_COMPARE_ABS"
         note: "Compared absolute values instead of positions"
+      - id: "opt-1"
+        text: "-12 < -5"
+        misconception_id: null
+        note: "Correct: -12 is further left on number line"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -157,14 +157,14 @@ items:
     kind: "followup"
     prompt: "Evaluate 2 + 5 × 3."
     options:
-      - id: "opt-1"
-        text: "17"
-        misconception_id: null
-        note: "Correct: 5×3=15, 2+15=17"
       - id: "opt-2"
         text: "21"
         misconception_id: "ORDER_OPS"
         note: "Added first: (2+5)×3=21"
+      - id: "opt-1"
+        text: "17"
+        misconception_id: null
+        note: "Correct: 5×3=15, 2+15=17"
       - id: "opt-3"
         text: "15"
         misconception_id: "UNCLEAR"
@@ -188,10 +188,6 @@ items:
     kind: "check"
     prompt: "A submarine is at -200 meters. It rises 50 meters. What is its new depth?"
     options:
-      - id: "opt-1"
-        text: "-150 meters"
-        misconception_id: null
-        note: "Correct: -200 + 50 = -150"
       - id: "opt-2"
         text: "-250 meters"
         misconception_id: "INT_COMPARE_ABS"
@@ -200,6 +196,10 @@ items:
         text: "150 meters"
         misconception_id: "INT_COMPARE_ABS"
         note: "Dropped negative sign"
+      - id: "opt-1"
+        text: "-150 meters"
+        misconception_id: null
+        note: "Correct: -200 + 50 = -150"
       - id: "opt-4"
         text: "250 meters"
         misconception_id: "UNCLEAR"
@@ -218,10 +218,6 @@ items:
     kind: "check"
     prompt: "Evaluate |-9| + |-4|."
     options:
-      - id: "opt-1"
-        text: "13"
-        misconception_id: null
-        note: "Correct: 9 + 4 = 13"
       - id: "opt-2"
         text: "-13"
         misconception_id: "INT_COMPARE_ABS"
@@ -234,6 +230,10 @@ items:
         text: "-5"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "13"
+        misconception_id: null
+        note: "Correct: 9 + 4 = 13"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -279,14 +279,14 @@ items:
     kind: "practice"
     prompt: "Evaluate |-9|."
     options:
-      - id: "opt-1"
-        text: "9"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "-9"
         misconception_id: "INT_COMPARE_ABS"
         note: "Carried negative through"
+      - id: "opt-1"
+        text: "9"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "0"
         misconception_id: "UNCLEAR"
@@ -313,14 +313,14 @@ items:
         text: "21"
         misconception_id: "ORDER_OPS"
         note: "Added first"
-      - id: "opt-2"
-        text: "17"
-        misconception_id: null
-        note: "Correct: multiply first"
       - id: "opt-3"
         text: "15"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-2"
+        text: "17"
+        misconception_id: null
+        note: "Correct: multiply first"
       - id: "opt-4"
         text: "13"
         misconception_id: "UNCLEAR"
@@ -343,10 +343,6 @@ items:
         text: "0"
         misconception_id: "ORDER_OPS"
         note: "Subtracted first: (6-3)×2=6"
-      - id: "opt-2"
-        text: "6"
-        misconception_id: null
-        note: "Correct: 3×2=6, 6-6=0? Wait, 6-6=0. Let me recalculate... 6 - 3×2 = 6 - 6 = 0"
       - id: "opt-3"
         text: "12"
         misconception_id: "UNCLEAR"
@@ -355,6 +351,10 @@ items:
         text: "3"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-2"
+        text: "6"
+        misconception_id: null
+        note: "Correct: 3×2=6, 6-6=0? Wait, 6-6=0. Let me recalculate... 6 - 3×2 = 6 - 6 = 0"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -399,14 +399,14 @@ items:
     kind: "practice"
     prompt: "Evaluate |-8| - |-3|."
     options:
-      - id: "opt-1"
-        text: "5"
-        misconception_id: null
-        note: "Correct: 8 - 3 = 5"
       - id: "opt-2"
         text: "-5"
         misconception_id: "INT_COMPARE_ABS"
         note: "Applied negative to result"
+      - id: "opt-1"
+        text: "5"
+        misconception_id: null
+        note: "Correct: 8 - 3 = 5"
       - id: "opt-3"
         text: "11"
         misconception_id: "UNCLEAR"
@@ -430,10 +430,6 @@ items:
     kind: "retest"
     prompt: "Compare -5 and 2."
     options:
-      - id: "opt-1"
-        text: "-5 < 2"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "-5 > 2"
         misconception_id: "INT_COMPARE_ABS"
@@ -442,6 +438,10 @@ items:
         text: "equal"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "-5 < 2"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-4"
         text: "|-5| < 2"
         misconception_id: "INT_COMPARE_ABS"
@@ -460,10 +460,6 @@ items:
     kind: "retest"
     prompt: "Evaluate |-9|."
     options:
-      - id: "opt-1"
-        text: "9"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "-9"
         misconception_id: "INT_COMPARE_ABS"
@@ -476,6 +472,10 @@ items:
         text: "-1"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "9"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -490,14 +490,14 @@ items:
     kind: "retest"
     prompt: "Evaluate 2 + 5 × 3."
     options:
-      - id: "opt-1"
-        text: "21"
-        misconception_id: "ORDER_OPS"
-        note: "Added first"
       - id: "opt-2"
         text: "17"
         misconception_id: null
         note: "Correct: multiply first"
+      - id: "opt-1"
+        text: "21"
+        misconception_id: "ORDER_OPS"
+        note: "Added first"
       - id: "opt-3"
         text: "15"
         misconception_id: "UNCLEAR"
@@ -520,14 +520,14 @@ items:
     kind: "retest"
     prompt: "Compare -8 and -3."
     options:
-      - id: "opt-1"
-        text: "-8 < -3"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "-8 > -3"
         misconception_id: "INT_COMPARE_ABS"
         note: "Compared absolute values"
+      - id: "opt-1"
+        text: "-8 < -3"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "-8 = -3"
         misconception_id: "UNCLEAR"
@@ -550,10 +550,6 @@ items:
     kind: "retest"
     prompt: "Evaluate 7 - 2 × 3."
     options:
-      - id: "opt-1"
-        text: "1"
-        misconception_id: null
-        note: "Correct: 2×3=6, 7-6=1"
       - id: "opt-2"
         text: "15"
         misconception_id: "ORDER_OPS"
@@ -562,6 +558,10 @@ items:
         text: "5"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "1"
+        misconception_id: null
+        note: "Correct: 2×3=6, 7-6=1"
       - id: "opt-4"
         text: "9"
         misconception_id: "UNCLEAR"
@@ -580,10 +580,6 @@ items:
     kind: "retest"
     prompt: "Evaluate |-6| + |-2|."
     options:
-      - id: "opt-1"
-        text: "8"
-        misconception_id: null
-        note: "Correct: 6 + 2 = 8"
       - id: "opt-2"
         text: "-8"
         misconception_id: "INT_COMPARE_ABS"
@@ -596,6 +592,10 @@ items:
         text: "-4"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "8"
+        misconception_id: null
+        note: "Correct: 6 + 2 = 8"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null

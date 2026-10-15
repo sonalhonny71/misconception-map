@@ -133,25 +133,48 @@ def test_retest_disjoint_from_other_kinds(content_loader):
 
 
 def test_katex_rendering(content_loader):
-    """All prompts and options should be valid KaTeX."""
+    """All prompts and options should be valid KaTeX.
+
+    Uses the KaTeX copy installed with the frontend (frontend/node_modules).
+    Skipped when Node or the frontend dependencies are not installed.
+    """
+    import shutil
     import subprocess
-    
+
+    frontend_dir = Path(__file__).resolve().parent.parent.parent / "frontend"
+    node = shutil.which("node")
+    if node is None or not (frontend_dir / "node_modules" / "katex").exists():
+        pytest.skip("Node or frontend dependencies (npm install) not available")
+
+    strings = []
     for item in content_loader.get_all_items():
-        # Test prompt
-        try:
-            subprocess.run(["npx", "katex-cli", item["prompt"]], 
-                         capture_output=True, check=True, timeout=5)
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            pass  # Skip if katex-cli not available
-        
-        # Test options
-        options = _get_options(item)
-        for opt in options:
-            try:
-                subprocess.run(["npx", "katex-cli", opt["text"]], 
-                             capture_output=True, check=True, timeout=5)
-            except (subprocess.CalledProcessError, FileNotFoundError):
-                pass
+        strings.append((item["item_id"], "prompt", item["prompt"]))
+        strings.append((item["item_id"], "explanation", item.get("explanation", "")))
+        for opt in _get_options(item):
+            strings.append((item["item_id"], opt["id"], opt["text"]))
+
+    # One Node process checks every string (much faster than one process each)
+    script = (
+        "const katex = require('katex');"
+        "const items = JSON.parse(require('fs').readFileSync(0, 'utf8'));"
+        "const bad = [];"
+        "for (const [id, where, tex] of items) {"
+        "  try { katex.renderToString(tex, {throwOnError: true, strict: false, trust: false}); }"
+        "  catch (e) { bad.push(`${id} (${where}): ${e.message}`); }"
+        "}"
+        "console.log(JSON.stringify(bad));"
+    )
+    proc = subprocess.run(
+        [node, "-e", script],
+        input=json.dumps(strings),
+        capture_output=True,
+        text=True,
+        timeout=60,
+        cwd=str(frontend_dir),
+    )
+    assert proc.returncode == 0, proc.stderr
+    bad = json.loads(proc.stdout.strip().splitlines()[-1])
+    assert not bad, "Invalid KaTeX in content:\n" + "\n".join(bad)
 
 
 def test_misconception_ids_valid(content_loader):

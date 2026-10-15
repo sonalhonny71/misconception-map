@@ -1,32 +1,33 @@
-from pydantic_settings import BaseSettings
-from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
-import os
 from functools import lru_cache
 
 
 class Settings(BaseSettings):
+    # Each field is read from the environment variable with the same name
+    # (case-insensitive): DATABASE_URL, DATABASE_URL_DIRECT, SECRET_KEY, ENV, ...
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
     # Database
-    database_url: str = Field(default="sqlite:///./test.db", env="DATABASE_URL")
-    database_url_direct: Optional[str] = Field(default=None, env="DATABASE_URL_DIRECT")
+    database_url: str = "sqlite:///./test.db"
+    database_url_direct: Optional[str] = None
 
     # Security
-    secret_key: str = Field(default="test-secret-key-for-development-only", env="SECRET_KEY")
+    secret_key: str = "test-secret-key-for-development-only"
 
     # Environment
-    env: str = Field(default="development", env="ENV")
-    allowed_origins: str = Field(default="http://localhost:5173,http://localhost:3000", env="ALLOWED_ORIGINS")
+    env: str = "development"
+    allowed_origins: str = "http://localhost:5173,http://localhost:3000"
 
     # Rate limiting
-    rate_limit_per_minute: int = Field(default=60, env="RATE_LIMIT_PER_MINUTE")
+    rate_limit_per_minute: int = 60
 
     # Token settings
-    learner_token_length: int = Field(default=32, env="LEARNER_TOKEN_LENGTH")  # bytes, so 64 hex chars
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        extra = "ignore"
+    learner_token_length: int = 32  # bytes, so 64 hex chars
 
 
 @lru_cache(maxsize=1)
@@ -34,29 +35,27 @@ def get_settings() -> Settings:
     return Settings()
 
 
-def get_database_url() -> str:
-    settings = get_settings()
-    url = settings.database_url
-    # Change both places that do the replace
-    if url.startswith("postgresql://"):
-        url = url.replace("postgresql://", "postgresql+psycopg2://", 1)
-    # Ensure sslmode=require is present (skip for SQLite)
+def _normalize_url(url: str) -> str:
+    """Make a database URL usable by the installed driver (psycopg2)."""
+    for prefix in ("postgresql://", "postgres://", "postgresql+psycopg://"):
+        if url.startswith(prefix):
+            url = "postgresql+psycopg2://" + url[len(prefix):]
+            break
+    # Neon needs SSL; add sslmode=require unless the URL already says otherwise
+    # (skipped for SQLite).
     if "sqlite:" not in url and "sslmode=" not in url:
         separator = "&" if "?" in url else "?"
         url = f"{url}{separator}sslmode=require"
     return url
+
+
+def get_database_url() -> str:
+    return _normalize_url(get_settings().database_url)
 
 
 def get_database_url_direct() -> str:
     settings = get_settings()
-    url = settings.database_url_direct or settings.database_url
-    # Change both places that do the replace
-    if url.startswith("postgresql://"):
-        url = url.replace("postgresql://", "postgresql+psycopg2://", 1)
-    if "sqlite:" not in url and "sslmode=" not in url:
-        separator = "&" if "?" in url else "?"
-        url = f"{url}{separator}sslmode=require"
-    return url
+    return _normalize_url(settings.database_url_direct or settings.database_url)
 
 
 # For backwards compatibility, provide lazy properties

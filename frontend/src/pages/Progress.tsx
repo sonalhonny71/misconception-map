@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../api/client'
-import { DisplayMath } from '../components/MathDisplay'
-import { Trophy, Star, Target, TrendingUp } from 'lucide-react'
+import { useAuthStore } from '../hooks/useAuth'
+import { Trophy, Star } from 'lucide-react'
 
 const STATUS_LABELS: Record<string, { label: string; color: string }> = {
   not_assessed: { label: 'Not assessed', color: 'text-muted' },
@@ -173,9 +173,11 @@ function getPhaseIcon(type: string) {
 async function handleReset() {
   if (confirm('This will permanently delete all your progress. Are you sure?')) {
     try {
-      await fetch('/api/learners/me', { method: 'DELETE', credentials: 'include' })
+      // Goes through the API client so the learner's token is sent
+      await api.deleteLearner()
+      useAuthStore.getState().clearLearner()
       localStorage.clear()
-      window.location.reload()
+      window.location.assign('/')
     } catch (e) {
       alert('Failed to reset progress')
     }

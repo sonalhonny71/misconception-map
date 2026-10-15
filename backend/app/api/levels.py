@@ -4,7 +4,7 @@ from sqlalchemy import func
 from typing import List
 
 from app.db.session import get_db
-from app.db.models import Learner, Session as SessionModel, Response, ResponseKind, Progress, SkillStatus
+from app.db.models import Learner, Session as SessionModel, SessionStatus, Response, ResponseKind, Progress, SkillStatus
 from app.schemas import LevelsOut, LevelSummary
 from app.api.learners import get_current_learner
 
@@ -48,7 +48,7 @@ async def get_levels(learner: Learner = Depends(get_current_learner), db: Sessio
         active_session = db.query(SessionModel).filter(
             SessionModel.learner_id == learner.id,
             SessionModel.level == level_id,
-            SessionModel.status == SessionModel.Status.IN_PROGRESS
+            SessionModel.status == SessionStatus.IN_PROGRESS
         ).first()
 
         if progress:

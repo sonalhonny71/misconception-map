@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from typing import Optional
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from uuid import UUID
@@ -24,7 +25,7 @@ def hash_token(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
 
-def get_current_learner(authorization: str = None, db: Session = Depends(get_db)) -> Learner:
+def get_current_learner(authorization: Optional[str] = Header(default=None), db: Session = Depends(get_db)) -> Learner:
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
     token = authorization[7:]  # Remove "Bearer "
@@ -38,7 +39,7 @@ def get_current_learner(authorization: str = None, db: Session = Depends(get_db)
 
 
 @router.post("/learners", response_model=LearnerOut, status_code=status.HTTP_201_CREATED)
-async def create_learner(learner_in: LearnerCreate, db: Session = Depends(get_db)):
+async def create_learner(learner_in: Optional[LearnerCreate] = None, db: Session = Depends(get_db)):
     """Create an anonymous learner and return a token (only shown once)."""
     token = secrets.token_hex(32)  # 64 hex chars
     token_hash = hash_token(token)
@@ -67,9 +68,10 @@ async def get_summary(learner: Learner = Depends(get_current_learner), db: Sessi
         Response.learner_id == learner.id, Response.kind == ResponseKind.PRACTICE
     ).scalar() or 0
 
-    latest_retest = db.query(Response).filter(
+    # The latest retest is the most recent set of (up to) 3 retest answers
+    latest_retest_responses = db.query(Response).filter(
         Response.learner_id == learner.id, Response.kind == ResponseKind.RETEST
-    ).order_by(Response.created_at.desc()).first()
+    ).order_by(Response.created_at.desc()).limit(3).all()
 
     # Get active level (most recent session in progress)
     active_session = db.query(SessionModel).filter(
@@ -83,9 +85,9 @@ async def get_summary(learner: Learner = Depends(get_current_learner), db: Sessi
         "total_xp": total_xp,
         "practice_sets_completed": practice_count // 3,  # 3 questions per practice set
         "latest_retest": {
-            "score": latest_retest.is_correct if latest_retest else None,
-            "total": 3,
-            "date": latest_retest.created_at.isoformat() if latest_retest else None
-        } if latest_retest else None,
+            "score": sum(1 for r in latest_retest_responses if r.is_correct),
+            "total": len(latest_retest_responses),
+            "date": latest_retest_responses[0].created_at.isoformat(),
+        } if latest_retest_responses else None,
         "active_level": active_level,
     }

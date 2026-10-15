@@ -36,7 +36,17 @@ An educational diagnostic web app for middle-school students learning algebra. I
 - Node 20+ (for frontend development)
 - Python 3.12+ (for backend development)
 
-### Using Docker Compose (Recommended)
+### One-command start (no Docker, no database server)
+
+```bash
+./scripts/start.sh        # needs Python 3.12+ and Node 20+
+# open http://localhost:8000
+```
+
+It creates a Python environment, installs everything, builds the web page, creates a local SQLite
+database, loads the questions and starts the app.
+
+### Using Docker Compose
 
 ```bash
 # Clone the repository

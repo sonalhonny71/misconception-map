@@ -9,7 +9,7 @@ test.describe('MisconceptionMap E2E', () => {
   test('Landing page loads and shows hero', async ({ page }) => {
     await expect(page.locator('h1')).toContainText('Learn from every answer')
     await expect(page.locator('text=Start learning')).toBeVisible()
-    await expect(page.locator('text=Find my level')).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Find my level', exact: true })).toBeVisible()
   })
 
   test('Navigation works', async ({ page }) => {
@@ -31,14 +31,14 @@ test.describe('MisconceptionMap E2E', () => {
 
   test('Can start Level 3 diagnostic', async ({ page }) => {
     await page.click('text=Learning Map')
-    await page.click('text=Algebra Essentials >> text=Start diagnostic')
+    await page.locator('article', { hasText: 'Algebra Essentials' }).getByText('Start diagnostic').click()
     
     // Should navigate to journey page
     await expect(page.url()).toContain('/journey/')
     
     // Should show a question
     await expect(page.locator('text=Diagnostic')).toBeVisible()
-    await expect(page.locator('input[type="radio"]')).toBeVisible()
+    await expect(page.locator('input[type="radio"]').first()).toBeVisible()
   })
 
   test('Answer flow works', async ({ page }) => {
@@ -65,25 +65,34 @@ test.describe('MisconceptionMap E2E', () => {
     await page.waitForLoadState('networkidle')
     
     await expect(page.locator('h1')).toContainText('Learn from every answer')
-    // Sidebar should be hidden on mobile
-    await expect(page.locator('.sidebar')).toBeHidden()
+    // On a phone the sidebar becomes a compact top bar; the page must not scroll sideways
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+    expect(overflow).toBeLessThanOrEqual(0)
   })
 
-  test('Accessibility: no critical violations', async ({ page }) => {
+  test('Accessibility: no critical violations', async ({ browser }) => {
+    // axe-core is injected as an inline script, which the app's strict security policy
+    // (correctly) blocks, so this one test turns the policy check off.
+    const context = await browser.newContext({ bypassCSP: true, baseURL: test.info().project.use.baseURL })
+    const page = await context.newPage()
     await page.goto('/')
     await page.waitForLoadState('networkidle')
     
     // Run axe
+    await page.addScriptTag({ path: require.resolve('axe-core/axe.min.js') })
     const accessibility = await page.evaluate(async () => {
-      const axe = await import('axe-core')
-      return await axe.default.run()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return await (window as any).axe.run()
     })
-    
-    const criticalViolations = accessibility.violations.filter(v => v.impact === 'critical')
-    const seriousViolations = accessibility.violations.filter(v => v.impact === 'serious')
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const criticalViolations = accessibility.violations.filter((v: any) => v.impact === 'critical')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const seriousViolations = accessibility.violations.filter((v: any) => v.impact === 'serious')
     
     expect(criticalViolations).toHaveLength(0)
     expect(seriousViolations).toHaveLength(0)
+    await context.close()
   })
 
   test('Cold start handling', async ({ page }) => {

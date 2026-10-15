@@ -11,6 +11,16 @@ def engine():
     return DiagnosticEngine(ContentLoader(Path(__file__).parent.parent / "app" / "content"))
 
 
+def misconception_of(engine, question, option_id):
+    """Which misconception an option stands for.
+
+    Served options only carry id and text (so learners cannot see the hints),
+    so the test looks the hint up in the content.
+    """
+    item = engine.content.get_item_by_id(question.item_id)
+    return next(o.get("misconception_id") for o in item["options"] if o["id"] == option_id)
+
+
 def test_hypothesis_status_thresholds():
     """Test status determination at various score thresholds."""
     # Insufficient (< 4)
@@ -66,7 +76,7 @@ def test_diagnostic_to_followup_transition(engine):
         if not q:
             break
         # Choose DIST_PARTIAL distractor
-        distractor = next((o for o in q.options if o.get("misconception_id") == "DIST_PARTIAL"), None)
+        distractor = next((o for o in q.options if misconception_of(engine, q, o["id"]) == "DIST_PARTIAL"), None)
         if distractor:
             result, state = engine.submit_answer(state, q.served_item_id, distractor["id"])
         else:
@@ -103,7 +113,7 @@ def test_followup_can_lower_score(engine):
     
     # First, get a DIST_PARTIAL signal in diagnostic
     q, state = engine.advance_to_next_question(state)
-    distractor = next((o for o in q.options if o.get("misconception_id") == "DIST_PARTIAL"), None)
+    distractor = next((o for o in q.options if misconception_of(engine, q, o["id"]) == "DIST_PARTIAL"), None)
     if distractor:
         result, state = engine.submit_answer(state, q.served_item_id, distractor["id"])
         initial_score = state.hypotheses.get("DIST_PARTIAL", {}).get("score", 0)
@@ -171,7 +181,8 @@ def test_retest_phase_has_3_questions(engine):
     state = engine.start_session(learner_id, 3)
     
     # Fast-forward through all phases
-    phases = ["diagnostic", "check_understanding", "practice", "retest"]
+    # (stop before "retest": its questions are counted below)
+    phases = ["diagnostic", "check_understanding", "practice"]
     for phase in phases:
         while state.phase.value == phase:
             q, state = engine.advance_to_next_question(state)
@@ -199,7 +210,7 @@ def test_explanation_generation(engine):
     
     # Answer diagnostic with DIST_PARTIAL
     q, state = engine.advance_to_next_question(state)
-    distractor = next((o for o in q.options if o.get("misconception_id") == "DIST_PARTIAL"), None)
+    distractor = next((o for o in q.options if misconception_of(engine, q, o["id"]) == "DIST_PARTIAL"), None)
     if distractor:
         result, state = engine.submit_answer(state, q.served_item_id, distractor["id"])
     
@@ -236,12 +247,19 @@ def test_compute_progress(engine):
             if i < 2:
                 result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
             else:
-                distractor = next((o for o in q.options if o.get("misconception_id")), None)
+                distractor = next((o for o in q.options if misconception_of(engine, q, o["id"])), None)
                 if distractor:
                     result, state = engine.submit_answer(state, q.served_item_id, distractor["id"])
                 else:
                     result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
     
+    # Wrong answers in the diagnostic lead to follow-up questions: answer them correctly
+    for _ in range(2):
+        if state.phase.value == "followup":
+            q, state = engine.advance_to_next_question(state)
+            if q:
+                result, state = engine.submit_answer(state, q.served_item_id, q.correct_option_id)
+
     # Skip to practice
     for _ in range(2):
         if state.phase.value == "check_understanding":
@@ -283,7 +301,7 @@ def test_single_slip_rule(engine):
     
     # Answer first question with ARITHMETIC_SLIP distractor
     q, state = engine.advance_to_next_question(state)
-    slip_distractor = next((o for o in q.options if o.get("misconception_id") == "ARITHMETIC_SLIP"), None)
+    slip_distractor = next((o for o in q.options if misconception_of(engine, q, o["id"]) == "ARITHMETIC_SLIP"), None)
     
     if slip_distractor:
         result, state = engine.submit_answer(state, q.served_item_id, slip_distractor["id"])

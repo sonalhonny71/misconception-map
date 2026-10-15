@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional, List, Dict, Any, Literal
 from uuid import UUID
 from datetime import datetime
@@ -52,8 +52,7 @@ class LearnerOut(BaseModel):
     token: str
     token_hash: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class HealthOut(BaseModel):
@@ -90,8 +89,7 @@ class SessionOut(BaseModel):
     started_at: datetime
     ended_at: Optional[datetime] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class OptionOut(BaseModel):
@@ -123,6 +121,7 @@ class FeedbackOut(BaseModel):
     next_phase: SessionPhase
     next_step_label: str
     xp_awarded: int = 0
+    correct_option_id: Optional[str] = None  # so the page can highlight the right answer
 
 
 class AnswerOut(BaseModel):
@@ -138,6 +137,9 @@ class InsightHypothesis(BaseModel):
     status: HypothesisStatus
     evidence_score: float
     evidence_trail: List[Dict[str, Any]]
+    wording: Optional[str] = None
+    step_explanation: Optional[str] = None
+    why_it_matters: Optional[str] = None
 
 
 class InsightsOut(BaseModel):

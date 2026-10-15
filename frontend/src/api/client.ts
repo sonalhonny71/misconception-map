@@ -1,12 +1,22 @@
 import { useAuthStore } from '../hooks/useAuth'
 const API_BASE = '/api'
 
+/** Error thrown for any non-OK API answer; keeps the HTTP status for callers. */
+export class ApiError extends Error {
+  status: number
+  constructor(message: string, status: number) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
+  }
+}
+
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const { learner } = useAuthStore.getState()
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string> | undefined),
   }
   
   if (learner?.token) {
@@ -19,8 +29,15 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   })
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ code: 'UNKNOWN', message: 'Request failed' }))
-    throw new Error(error.message || `HTTP ${response.status}`)
+    const error = await response.json().catch(() => ({}))
+    // FastAPI sends { detail: "..." }; some errors may use { message: "..." }
+    const detail = typeof error.detail === 'string' ? error.detail : undefined
+    // A saved token the server no longer knows (e.g. after a database reset):
+    // forget it so a fresh anonymous learner is created automatically.
+    if (response.status === 401 && learner) {
+      useAuthStore.getState().clearLearner()
+    }
+    throw new ApiError(detail || error.message || `HTTP ${response.status}`, response.status)
   }
 
   if (response.status === 204) {
@@ -32,7 +49,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
 export const api = {
   // Learners
-  createLearner: () => request<{ token: string; token_hash: string }>('/learners', { method: 'POST' }),
+  createLearner: () => request<{ token: string; token_hash: string }>('/learners', { method: 'POST', body: JSON.stringify({}) }),
   deleteLearner: () => request<void>('/learners/me', { method: 'DELETE' }),
   getSummary: () => request<{ total_xp: number; practice_sets_completed: number; latest_retest: any; active_level: number }>('/me/summary'),
 

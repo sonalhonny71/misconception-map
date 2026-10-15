@@ -6,10 +6,6 @@ items:
     kind: "diagnostic"
     prompt: "Solve 3x - 5 = 10."
     options:
-      - id: "opt-1"
-        text: "x = 5"
-        misconception_id: null
-        note: "Correct: add 5, divide by 3"
       - id: "opt-2"
         text: "x = 15"
         misconception_id: "INV_WRONG_OP"
@@ -22,6 +18,10 @@ items:
         text: "x = 3"
         misconception_id: "INV_WRONG_OP"
         note: "Divided 10 by 3 first? unclear"
+      - id: "opt-1"
+        text: "x = 5"
+        misconception_id: null
+        note: "Correct: add 5, divide by 3"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -66,14 +66,14 @@ items:
     kind: "diagnostic"
     prompt: "Solve 4x + 2 = 2x + 10."
     options:
-      - id: "opt-1"
-        text: "x = 4"
-        misconception_id: null
-        note: "Correct: subtract 2x and 2, divide by 2"
       - id: "opt-2"
         text: "x = 2"
         misconception_id: "INV_ONE_SIDE"
         note: "Subtracted 2x from left only: 2x+2=10? unclear"
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct: subtract 2x and 2, divide by 2"
       - id: "opt-3"
         text: "x = 3"
         misconception_id: "INV_ORDER"
@@ -96,10 +96,6 @@ items:
     kind: "diagnostic"
     prompt: "Solve 2(x + 3) = 14."
     options:
-      - id: "opt-1"
-        text: "x = 4"
-        misconception_id: null
-        note: "Correct: 2x+6=14, 2x=8, x=4"
       - id: "opt-2"
         text: "x = 11/2"
         misconception_id: "DIST_PARTIAL"
@@ -108,6 +104,10 @@ items:
         text: "x = 5"
         misconception_id: "INV_WRONG_OP"
         note: "14/2=7, then 7-3=4? wait that's correct... unclear"
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct: 2x+6=14, 2x=8, x=4"
       - id: "opt-4"
         text: "x = 7"
         misconception_id: "INV_WRONG_OP"
@@ -127,10 +127,6 @@ items:
     kind: "followup"
     prompt: "Solve 5x - 8 = 12."
     options:
-      - id: "opt-1"
-        text: "x = 4"
-        misconception_id: null
-        note: "Correct: 5x=20, x=4"
       - id: "opt-2"
         text: "x = 20"
         misconception_id: "INV_WRONG_OP"
@@ -143,6 +139,10 @@ items:
         text: "x = 2"
         misconception_id: "INV_ORDER"
         note: "Divided 12 by 5 first? unclear"
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct: 5x=20, x=4"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -187,14 +187,14 @@ items:
     kind: "followup"
     prompt: "Solve 6x + 2 = 2x + 10."
     options:
-      - id: "opt-1"
-        text: "x = 2"
-        misconception_id: null
-        note: "Correct: 4x=8, x=2"
       - id: "opt-2"
         text: "x = 4"
         misconception_id: "INV_ONE_SIDE"
         note: "Subtracted 2x from left only? unclear"
+      - id: "opt-1"
+        text: "x = 2"
+        misconception_id: null
+        note: "Correct: 4x=8, x=2"
       - id: "opt-3"
         text: "x = 3"
         misconception_id: "INV_ORDER"
@@ -217,10 +217,6 @@ items:
     kind: "followup"
     prompt: "Solve 3(x - 2) = 9."
     options:
-      - id: "opt-1"
-        text: "x = 5"
-        misconception_id: null
-        note: "Correct: 3x-6=9, 3x=15, x=5"
       - id: "opt-2"
         text: "x = 11/3"
         misconception_id: "DIST_PARTIAL"
@@ -229,6 +225,10 @@ items:
         text: "x = 3"
         misconception_id: "INV_WRONG_OP"
         note: "9/3=3, then added 2"
+      - id: "opt-1"
+        text: "x = 5"
+        misconception_id: null
+        note: "Correct: 3x-6=9, 3x=15, x=5"
       - id: "opt-4"
         text: "x = 1"
         misconception_id: "INV_ORDER"
@@ -248,10 +248,6 @@ items:
     kind: "check"
     prompt: "A number multiplied by 3, then increased by 7, gives 22. Find the number."
     options:
-      - id: "opt-1"
-        text: "5"
-        misconception_id: null
-        note: "Correct: 3x+7=22, 3x=15, x=5"
       - id: "opt-2"
         text: "29/3"
         misconception_id: "DIST_PARTIAL"
@@ -264,6 +260,10 @@ items:
         text: "7.33"
         misconception_id: "INV_ORDER"
         note: "22/3≈7.33, then... unclear"
+      - id: "opt-1"
+        text: "5"
+        misconception_id: null
+        note: "Correct: 3x+7=22, 3x=15, x=5"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -309,14 +309,14 @@ items:
     kind: "practice"
     prompt: "Solve 5x - 8 = 12."
     options:
-      - id: "opt-1"
-        text: "x = 4"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "x = 20"
         misconception_id: "INV_WRONG_OP"
         note: "Forgot to divide by 5"
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "x = -4"
         misconception_id: "INV_WRONG_OP"
@@ -339,10 +339,6 @@ items:
     kind: "practice"
     prompt: "Solve -4x + 12 = 0."
     options:
-      - id: "opt-1"
-        text: "x = 3"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "x = -3"
         misconception_id: "INV_NEG_DIV"
@@ -351,6 +347,10 @@ items:
         text: "x = 12"
         misconception_id: "INV_ORDER"
         note: "Divided by -4 first"
+      - id: "opt-1"
+        text: "x = 3"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-4"
         text: "x = 0"
         misconception_id: "INV_ONE_SIDE"
@@ -369,10 +369,6 @@ items:
     kind: "practice"
     prompt: "Solve 6x + 2 = 2x + 10."
     options:
-      - id: "opt-1"
-        text: "x = 2"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "x = 4"
         misconception_id: "INV_ONE_SIDE"
@@ -385,6 +381,10 @@ items:
         text: "x = 8"
         misconception_id: "INV_WRONG_OP"
         note: "Added 2x to both sides"
+      - id: "opt-1"
+        text: "x = 2"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -429,14 +429,14 @@ items:
     kind: "practice"
     prompt: "Solve -3x + 9 = 15."
     options:
-      - id: "opt-1"
-        text: "x = -2"
-        misconception_id: null
-        note: "Correct: -3x=6, x=-2"
       - id: "opt-2"
         text: "x = 2"
         misconception_id: "INV_NEG_DIV"
         note: "Divided by 3 instead of -3"
+      - id: "opt-1"
+        text: "x = -2"
+        misconception_id: null
+        note: "Correct: -3x=6, x=-2"
       - id: "opt-3"
         text: "x = 8"
         misconception_id: "INV_WRONG_OP"
@@ -459,10 +459,6 @@ items:
     kind: "practice"
     prompt: "Solve 5x - 3 = 3x + 9."
     options:
-      - id: "opt-1"
-        text: "x = 6"
-        misconception_id: null
-        note: "Correct: 2x=12, x=6"
       - id: "opt-2"
         text: "x = 3"
         misconception_id: "INV_ONE_SIDE"
@@ -471,6 +467,10 @@ items:
         text: "x = 4"
         misconception_id: "INV_ORDER"
         note: "Added 3 first: 5x=3x+12? unclear"
+      - id: "opt-1"
+        text: "x = 6"
+        misconception_id: null
+        note: "Correct: 2x=12, x=6"
       - id: "opt-4"
         text: "x = 12"
         misconception_id: "INV_WRONG_OP"
@@ -490,10 +490,6 @@ items:
     kind: "retest"
     prompt: "Solve 5x - 8 = 12."
     options:
-      - id: "opt-1"
-        text: "x = 4"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "x = 20"
         misconception_id: "INV_WRONG_OP"
@@ -506,6 +502,10 @@ items:
         text: "x = 2"
         misconception_id: "INV_ORDER"
         note: "Divided 12 by 5 first"
+      - id: "opt-1"
+        text: "x = 4"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -550,14 +550,14 @@ items:
     kind: "retest"
     prompt: "Solve 6x + 2 = 2x + 10."
     options:
-      - id: "opt-1"
-        text: "x = 2"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "x = 4"
         misconception_id: "INV_ONE_SIDE"
         note: "Subtracted 2x from left only"
+      - id: "opt-1"
+        text: "x = 2"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "x = 3"
         misconception_id: "INV_ORDER"
@@ -580,10 +580,6 @@ items:
     kind: "retest"
     prompt: "Solve 3(x - 4) = 9."
     options:
-      - id: "opt-1"
-        text: "x = 7"
-        misconception_id: null
-        note: "Correct: 3x-12=9, 3x=21, x=7"
       - id: "opt-2"
         text: "x = 13/3"
         misconception_id: "DIST_PARTIAL"
@@ -592,6 +588,10 @@ items:
         text: "x = 3"
         misconception_id: "INV_WRONG_OP"
         note: "9/3=3, then added 4"
+      - id: "opt-1"
+        text: "x = 7"
+        misconception_id: null
+        note: "Correct: 3x-12=9, 3x=21, x=7"
       - id: "opt-4"
         text: "x = 5/3"
         misconception_id: "INV_ORDER"
@@ -610,10 +610,6 @@ items:
     kind: "retest"
     prompt: "Solve -2x + 8 = 14."
     options:
-      - id: "opt-1"
-        text: "x = -3"
-        misconception_id: null
-        note: "Correct: -2x=6, x=-3"
       - id: "opt-2"
         text: "x = 3"
         misconception_id: "INV_NEG_DIV"
@@ -626,6 +622,10 @@ items:
         text: "x = 11"
         misconception_id: "INV_ORDER"
         note: "Divided by -2 first: x - 4 = -7? unclear"
+      - id: "opt-1"
+        text: "x = -3"
+        misconception_id: null
+        note: "Correct: -2x=6, x=-3"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null

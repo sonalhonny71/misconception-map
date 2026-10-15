@@ -2,15 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useAuthStore } from '../hooks/useAuth'
-import { useToast } from '../components/Toast'
-import { ArrowRight, Target, MapPin } from 'lucide-react'
+import { ArrowRight, Target } from 'lucide-react'
 import { DisplayMath } from '../components/MathDisplay'
 
 export function Dashboard() {
-  const { learner, setLearner } = useAuthStore()
-  const { show } = useToast()
+  const { learner } = useAuthStore()
 
-  const { data: summary, isLoading } = useQuery({
+  const { data: summary } = useQuery({
     queryKey: ['summary'],
     queryFn: api.getSummary,
     enabled: !!learner,
@@ -22,21 +20,9 @@ export function Dashboard() {
     enabled: !!learner,
   })
 
-  // Initialize learner if not exists
-  if (!learner && !isLoading) {
-    api.createLearner().then((data) => {
-      setLearner(data)
-      show('Welcome! Your learning journey begins now.')
-    }).catch(() => {
-      show('Failed to start session. Please refresh.', 'error')
-    })
-    return <DashboardSkeleton />
-  }
-
   if (!learner) return <DashboardSkeleton />
 
   const activeLevel = levels?.levels?.find((l: any) => l.id === summary?.active_level) || levels?.levels?.[2]
-  const completedCount = levels?.levels?.filter((l: any) => l.status === 'consistent_evidence' || l.status === 'encouraging_evidence').length || 0
 
   return (
     <section className="view active" id="dashboard">
@@ -56,7 +42,7 @@ export function Dashboard() {
         </div>
         <div className="hero-art" aria-hidden="true">
           <div className="orbit">
-            <DisplayMath children="\\sum" />
+            <DisplayMath children="\sum" />
           </div>
         </div>
       </div>
@@ -89,7 +75,7 @@ export function Dashboard() {
           <span className="pill">CURRENT FOCUS</span>
           <h3 style={{ marginTop: '12px' }}>{activeLevel?.name}: {activeLevel?.title}</h3>
           <p>{activeLevel?.description}</p>
-          <Link to={`/journey/new?level=${activeLevel?.id}`} className="btn primary mt-4">
+          <Link to={`/journey/new?level=${activeLevel?.id ?? 3}`} className="btn primary mt-4">
             Begin a diagnostic <ArrowRight className="ml-2 w-5 h-5" aria-hidden="true" />
           </Link>
         </div>
@@ -113,7 +99,7 @@ function DashboardSkeleton() {
     <section className="view active" id="dashboard">
       <div className="hero">
         <div>
-          <div className="skeleton h-4 w-32 mb-4" />
+          <div className="skeleton h-4 w-32 mb-4" data-testid="skeleton" />
           <div className="skeleton h-10 w-96 mb-4" />
           <div className="skeleton h-6 w-80 mb-6" />
           <div className="skeleton h-12 w-48" />

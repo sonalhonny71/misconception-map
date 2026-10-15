@@ -43,4 +43,5 @@ USER appuser
 EXPOSE 8000
 
 # Run migrations and start
-CMD ["sh", "-c", "alembic upgrade head && gunicorn app.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --timeout 120 --access-logfile - --error-logfile -"]
+# PORT is set by hosts such as Render; falls back to 8000. The app also loads the questions at start-up.
+CMD ["sh", "-c", "alembic upgrade head && gunicorn app.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8000} --timeout 120 --access-logfile - --error-logfile -"]
