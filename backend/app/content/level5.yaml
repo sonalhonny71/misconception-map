@@ -6,14 +6,14 @@ items:
     kind: "diagnostic"
     prompt: "If y = 3x + 2, find y when x = 4."
     options:
-      - id: "opt-1"
-        text: "14"
-        misconception_id: null
-        note: "Correct: 3×4+2=14"
       - id: "opt-2"
         text: "10"
         misconception_id: "SUBST_ORDER"
         note: "3+4+2=9? or 3×2+4=10"
+      - id: "opt-1"
+        text: "14"
+        misconception_id: null
+        note: "Correct: 3×4+2=14"
       - id: "opt-3"
         text: "8"
         misconception_id: "SUBST_ORDER"
@@ -36,10 +36,6 @@ items:
     kind: "diagnostic"
     prompt: "Solve 2x - 5 > 3."
     options:
-      - id: "opt-1"
-        text: "x > 4"
-        misconception_id: null
-        note: "Correct: 2x > 8, x > 4"
       - id: "opt-2"
         text: "x < 4"
         misconception_id: "INEQ_FLIP"
@@ -48,6 +44,10 @@ items:
         text: "x > 1"
         misconception_id: "INV_ORDER"
         note: "Subtracted 5 from 3: 2x > -2? unclear"
+      - id: "opt-1"
+        text: "x > 4"
+        misconception_id: null
+        note: "Correct: 2x > 8, x > 4"
       - id: "opt-4"
         text: "x < 1"
         misconception_id: "INV_ORDER"
@@ -66,10 +66,6 @@ items:
     kind: "diagnostic"
     prompt: "If x + y = 7 and x = 3, find y."
     options:
-      - id: "opt-1"
-        text: "4"
-        misconception_id: null
-        note: "Correct: 3 + y = 7, y = 4"
       - id: "opt-2"
         text: "10"
         misconception_id: "INV_WRONG_OP"
@@ -82,6 +78,10 @@ items:
         text: "0"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "4"
+        misconception_id: null
+        note: "Correct: 3 + y = 7, y = 4"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -127,14 +127,14 @@ items:
     kind: "followup"
     prompt: "If y = 5x - 3 and x = 3, find y."
     options:
-      - id: "opt-1"
-        text: "12"
-        misconception_id: null
-        note: "Correct: 5×3-3=12"
       - id: "opt-2"
         text: "15"
         misconception_id: "SUBST_ORDER"
         note: "5×3=15, ignored -3"
+      - id: "opt-1"
+        text: "12"
+        misconception_id: null
+        note: "Correct: 5×3-3=12"
       - id: "opt-3"
         text: "18"
         misconception_id: "SUBST_ORDER"
@@ -157,10 +157,6 @@ items:
     kind: "followup"
     prompt: "Solve 3x - 7 > 5."
     options:
-      - id: "opt-1"
-        text: "x > 4"
-        misconception_id: null
-        note: "Correct: 3x > 12, x > 4"
       - id: "opt-2"
         text: "x < 4"
         misconception_id: "INEQ_FLIP"
@@ -169,6 +165,10 @@ items:
         text: "x > 1"
         misconception_id: "INV_ORDER"
         note: "Subtracted 7 from 5: 3x > -2? unclear"
+      - id: "opt-1"
+        text: "x > 4"
+        misconception_id: null
+        note: "Correct: 3x > 12, x > 4"
       - id: "opt-4"
         text: "x < 1"
         misconception_id: "INV_ORDER"
@@ -187,10 +187,6 @@ items:
     kind: "followup"
     prompt: "If x + y = 10 and x = 4, find y."
     options:
-      - id: "opt-1"
-        text: "6"
-        misconception_id: null
-        note: "Correct: 4 + y = 10, y = 6"
       - id: "opt-2"
         text: "14"
         misconception_id: "INV_WRONG_OP"
@@ -203,6 +199,10 @@ items:
         text: "4"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "6"
+        misconception_id: null
+        note: "Correct: 4 + y = 10, y = 6"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -246,16 +246,16 @@ items:
     level: 5
     skill: "transfer-inequalities"
     kind: "check"
-    prompt: "A taxi charges $3 per mile plus a $2 flat fee. Write an inequality for rides costing more than $14."
+    prompt: "A taxi charges \\$3 per mile plus a \\$2 flat fee. Write an inequality for rides costing more than \\$14."
     options:
-      - id: "opt-1"
-        text: "3x + 2 > 14"
-        misconception_id: null
-        note: "Correct: cost = 3x+2, more than 14"
       - id: "opt-2"
         text: "3x + 2 < 14"
         misconception_id: "INEQ_FLIP"
         note: "Wrong direction"
+      - id: "opt-1"
+        text: "3x + 2 > 14"
+        misconception_id: null
+        note: "Correct: cost = 3x+2, more than 14"
       - id: "opt-3"
         text: "3x - 2 > 14"
         misconception_id: "SUBST_ORDER"
@@ -269,7 +269,7 @@ items:
         misconception_id: null
         note: "Neutral response"
     correct_option_id: "opt-1"
-    explanation: "Cost = 3x + 2. More than $14 means 3x + 2 > 14."
+    explanation: "Cost = 3x + 2. More than \\$14 means 3x + 2 > 14."
     discriminates: ["INEQ_FLIP", "SUBST_ORDER", "LIKE_UNLIKE"]
 
   - item_id: "check-5-02"
@@ -278,10 +278,6 @@ items:
     kind: "check"
     prompt: "Which inequality has the solution x < 2?"
     options:
-      - id: "opt-1"
-        text: "-2x > -4"
-        misconception_id: null
-        note: "Correct: divide by -2, flip: x < 2"
       - id: "opt-2"
         text: "2x > 4"
         misconception_id: "INEQ_FLIP"
@@ -290,6 +286,10 @@ items:
         text: "-2x < -4"
         misconception_id: "INEQ_FLIP"
         note: "Solution x > 2"
+      - id: "opt-1"
+        text: "-2x > -4"
+        misconception_id: null
+        note: "Correct: divide by -2, flip: x < 2"
       - id: "opt-4"
         text: "2x < 4"
         misconception_id: "INV_WRONG_OP"
@@ -309,10 +309,6 @@ items:
     kind: "practice"
     prompt: "If y = 5x - 3 and x = 3, find y."
     options:
-      - id: "opt-1"
-        text: "12"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "15"
         misconception_id: "SUBST_ORDER"
@@ -325,6 +321,10 @@ items:
         text: "8"
         misconception_id: "SUBST_ORDER"
         note: "5+3=8? unclear"
+      - id: "opt-1"
+        text: "12"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -369,14 +369,14 @@ items:
     kind: "practice"
     prompt: "If x + y = 10 and x = 4, find y."
     options:
-      - id: "opt-1"
-        text: "6"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "14"
         misconception_id: "INV_WRONG_OP"
         note: "Added instead of subtracting"
+      - id: "opt-1"
+        text: "6"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "-6"
         misconception_id: "INV_WRONG_OP"
@@ -399,10 +399,6 @@ items:
     kind: "practice"
     prompt: "Solve -2x > 6."
     options:
-      - id: "opt-1"
-        text: "x < -3"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "x > -3"
         misconception_id: "INEQ_FLIP"
@@ -411,6 +407,10 @@ items:
         text: "x < 3"
         misconception_id: "INV_NEG_DIV"
         note: "Divided by 2, flipped"
+      - id: "opt-1"
+        text: "x < -3"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-4"
         text: "x > 3"
         misconception_id: "INV_NEG_DIV"
@@ -427,12 +427,8 @@ items:
     level: 5
     skill: "transfer-inequalities"
     kind: "practice"
-    prompt: "A phone plan costs $20/month plus $0.10 per text. Write an inequality for bills over $30."
+    prompt: "A phone plan costs \\$20/month plus \\$0.10 per text. Write an inequality for bills over \\$30."
     options:
-      - id: "opt-1"
-        text: "20 + 0.10x > 30"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "20 + 0.10x < 30"
         misconception_id: "INEQ_FLIP"
@@ -445,12 +441,16 @@ items:
         text: "0.10x + 30 > 20"
         misconception_id: "LIKE_UNLIKE"
         note: "Swapped terms"
+      - id: "opt-1"
+        text: "20 + 0.10x > 30"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
         note: "Neutral"
     correct_option_id: "opt-1"
-    explanation: "Cost = 20 + 0.10x. Over $30 means 20 + 0.10x > 30."
+    explanation: "Cost = 20 + 0.10x. Over \\$30 means 20 + 0.10x > 30."
     targets: ["INEQ_FLIP", "SUBST_ORDER", "LIKE_UNLIKE"]
 
   - item_id: "practice-5-06"
@@ -490,14 +490,14 @@ items:
     kind: "retest"
     prompt: "If y = 5x - 3 and x = 3, find y."
     options:
-      - id: "opt-1"
-        text: "12"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "15"
         misconception_id: "SUBST_ORDER"
         note: "Ignored -3"
+      - id: "opt-1"
+        text: "12"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "18"
         misconception_id: "SUBST_ORDER"
@@ -520,10 +520,6 @@ items:
     kind: "retest"
     prompt: "Solve 3x - 7 > 5."
     options:
-      - id: "opt-1"
-        text: "x > 4"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "x < 4"
         misconception_id: "INEQ_FLIP"
@@ -532,6 +528,10 @@ items:
         text: "x > 1"
         misconception_id: "INV_ORDER"
         note: "Subtracted 7 from 5"
+      - id: "opt-1"
+        text: "x > 4"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-4"
         text: "x < 1"
         misconception_id: "INV_ORDER"
@@ -550,10 +550,6 @@ items:
     kind: "retest"
     prompt: "If x + y = 10 and x = 4, find y."
     options:
-      - id: "opt-1"
-        text: "6"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "14"
         misconception_id: "INV_WRONG_OP"
@@ -566,6 +562,10 @@ items:
         text: "4"
         misconception_id: "UNCLEAR"
         note: "No clear pattern"
+      - id: "opt-1"
+        text: "6"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -608,16 +608,16 @@ items:
     level: 5
     skill: "transfer-inequalities"
     kind: "retest"
-    prompt: "A taxi charges $4/mile plus $1 flat fee. Write inequality for rides costing more than $21."
+    prompt: "A taxi charges \\$4/mile plus \\$1 flat fee. Write inequality for rides costing more than \\$21."
     options:
-      - id: "opt-1"
-        text: "4x + 1 > 21"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "4x + 1 < 21"
         misconception_id: "INEQ_FLIP"
         note: "Wrong direction"
+      - id: "opt-1"
+        text: "4x + 1 > 21"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "4x - 1 > 21"
         misconception_id: "SUBST_ORDER"
@@ -631,7 +631,7 @@ items:
         misconception_id: null
         note: "Neutral"
     correct_option_id: "opt-1"
-    explanation: "Cost = 4x + 1. More than $21 means 4x + 1 > 21."
+    explanation: "Cost = 4x + 1. More than \\$21 means 4x + 1 > 21."
     discriminates: ["INEQ_FLIP", "SUBST_ORDER", "LIKE_UNLIKE"]
 
   - item_id: "retest-5-06"
@@ -640,10 +640,6 @@ items:
     kind: "retest"
     prompt: "Solve -3x + 6 < 0."
     options:
-      - id: "opt-1"
-        text: "x > 2"
-        misconception_id: null
-        note: "Correct: -3x < -6, x > 2"
       - id: "opt-2"
         text: "x < 2"
         misconception_id: "INEQ_FLIP"
@@ -652,6 +648,10 @@ items:
         text: "x > -2"
         misconception_id: "INV_NEG_DIV"
         note: "Divided by 3, flipped"
+      - id: "opt-1"
+        text: "x > 2"
+        misconception_id: null
+        note: "Correct: -3x < -6, x > 2"
       - id: "opt-4"
         text: "x < -2"
         misconception_id: "INV_NEG_DIV"

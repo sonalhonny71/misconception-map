@@ -358,13 +358,16 @@ class DiagnosticEngine:
 
         elif state.phase == Phase.PRACTICE:
             top_hyp = self._get_top_hypothesis(state.hypotheses)
-            practice_items = self.content.get_practice_items(state.level, top_hyp, state.responses)
+            # Only items from *other* phases count as "seen", so the list of practice
+            # questions stays the same while the learner moves through the phase.
+            earlier_responses = [r for r in state.responses if r["kind"] != "practice"]
+            practice_items = self.content.get_practice_items(state.level, top_hyp, earlier_responses)
             if state.step_index < len(practice_items):
                 item = practice_items[state.step_index]
                 return self._serve_item(item, state.step_index, min(3, len(practice_items)), Phase.PRACTICE, state.current_skill)
 
         elif state.phase == Phase.RETEST:
-            seen_item_ids = {r["item_id"] for r in state.responses}
+            seen_item_ids = {r["item_id"] for r in state.responses if r["kind"] != "retest"}
             retest_items = self.content.get_retest_items(state.level, state.current_skill, seen_item_ids)
             if state.step_index < len(retest_items):
                 item = retest_items[state.step_index]

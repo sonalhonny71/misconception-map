@@ -1,6 +1,5 @@
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, Map, BookOpen, BarChart2, TrendingUp, Target } from 'lucide-react'
-import { useAuthStore } from '../hooks/useAuth'
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -12,9 +11,6 @@ const navItems = [
 ]
 
 export function Sidebar() {
-  const location = useLocation()
-  const { learner, clearLearner } = useAuthStore()
-
   return (
     <aside className="sidebar" aria-label="Main navigation">
       <div className="brand">
@@ -28,7 +24,6 @@ export function Sidebar() {
             key={item.path}
             to={item.path}
             className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-            onClick={() => {}}
           >
             <span className="ico" aria-hidden="true">
               <item.icon size={22} strokeWidth={2} />

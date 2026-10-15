@@ -81,7 +81,7 @@ export function LearningMap() {
                 <span className="muted">{level.id} / 5</span>
               </div>
               <h3>{level.name}: {level.title}</h3>
-              <p>{level.desc}</p>
+              <p>{level.description ?? level.desc}</p>
               <div className="progress-track">
                 <div className="progress-fill" style={{ width: `${level.progress_percent}%` }} />
               </div>

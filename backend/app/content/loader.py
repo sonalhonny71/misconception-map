@@ -74,12 +74,16 @@ class ContentLoader:
             and item["item_id"] not in seen_item_ids
             and (not misconception_id or misconception_id in item.get("targets", []))
         ]
-        # If no targeted items, fall back to general practice for the level
-        if not candidates:
-            candidates = [
+        # A practice set is 3 questions: if there are fewer targeted items than that
+        # (or none), top up with general practice items for the level.
+        if len(candidates) < 3:
+            extra = [
                 item for item in self._items_by_level.get(level, [])
-                if item["kind"] == "practice" and item["item_id"] not in seen_item_ids
+                if item["kind"] == "practice"
+                and item["item_id"] not in seen_item_ids
+                and item not in candidates
             ]
+            candidates = candidates + extra
         return candidates[:6]  # Return up to 6, engine will use first 3
 
     def get_retest_items(self, level: int, skill: str, seen_item_ids: set) -> List[Dict]:

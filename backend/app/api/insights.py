@@ -33,6 +33,9 @@ async def get_insights(learner: Learner = Depends(get_current_learner), db: Sess
             status=h.status,
             evidence_score=h.evidence_score / 2.0,  # Convert back from half-points
             evidence_trail=evidence_trail,
+            wording=confidence_wording(h.status.value),
+            step_explanation=misc["step"],
+            why_it_matters=misc["why_it_matters"],
         ))
 
     # Recent evidence (last 5 responses)

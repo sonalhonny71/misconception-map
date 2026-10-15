@@ -36,14 +36,14 @@ items:
     kind: "diagnostic"
     prompt: "If x = 4, evaluate 2x + 3."
     options:
-      - id: "opt-1"
-        text: "11"
-        misconception_id: null
-        note: "Correct: 2 × 4 + 3 = 11"
       - id: "opt-2"
         text: "8"
         misconception_id: "SUBST_ORDER"
         note: "2 + 3 = 5, then... unclear"
+      - id: "opt-1"
+        text: "11"
+        misconception_id: null
+        note: "Correct: 2 × 4 + 3 = 11"
       - id: "opt-3"
         text: "5"
         misconception_id: "SUBST_ORDER"
@@ -66,10 +66,6 @@ items:
     kind: "diagnostic"
     prompt: "Simplify -2x + (-3x)."
     options:
-      - id: "opt-1"
-        text: "-5x"
-        misconception_id: null
-        note: "Correct: -2 + (-3) = -5"
       - id: "opt-2"
         text: "-6x"
         misconception_id: "LIKE_NEG_COEFF"
@@ -78,6 +74,10 @@ items:
         text: "5x"
         misconception_id: "LIKE_NEG_COEFF"
         note: "Two negatives make positive"
+      - id: "opt-1"
+        text: "-5x"
+        misconception_id: null
+        note: "Correct: -2 + (-3) = -5"
       - id: "opt-4"
         text: "-x"
         misconception_id: "LIKE_NEG_COEFF"
@@ -96,10 +96,6 @@ items:
     kind: "diagnostic"
     prompt: "Simplify 4y - 2y + 7."
     options:
-      - id: "opt-1"
-        text: "2y + 7"
-        misconception_id: null
-        note: "Correct: 4y - 2y = 2y"
       - id: "opt-2"
         text: "2y"
         misconception_id: "LIKE_UNLIKE"
@@ -112,6 +108,10 @@ items:
         text: "9y"
         misconception_id: "LIKE_UNLIKE"
         note: "Combined all terms: 4+2+7=13? unclear"
+      - id: "opt-1"
+        text: "2y + 7"
+        misconception_id: null
+        note: "Correct: 4y - 2y = 2y"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -157,14 +157,14 @@ items:
     kind: "followup"
     prompt: "Simplify -4y + (-2y)."
     options:
-      - id: "opt-1"
-        text: "-6y"
-        misconception_id: null
-        note: "Correct: -4 + (-2) = -6"
       - id: "opt-2"
         text: "-2y"
         misconception_id: "LIKE_NEG_COEFF"
         note: "Subtracted: -4 - (-2) = -2"
+      - id: "opt-1"
+        text: "-6y"
+        misconception_id: null
+        note: "Correct: -4 + (-2) = -6"
       - id: "opt-3"
         text: "6y"
         misconception_id: "LIKE_NEG_COEFF"
@@ -187,10 +187,6 @@ items:
     kind: "followup"
     prompt: "If y = 5, evaluate 3y - 2."
     options:
-      - id: "opt-1"
-        text: "13"
-        misconception_id: null
-        note: "Correct: 3×5-2=15-2=13"
       - id: "opt-2"
         text: "17"
         misconception_id: "SUBST_ORDER"
@@ -199,6 +195,10 @@ items:
         text: "3"
         misconception_id: "SUBST_ORDER"
         note: "5-2=3, forgot to multiply by 3"
+      - id: "opt-1"
+        text: "13"
+        misconception_id: null
+        note: "Correct: 3×5-2=15-2=13"
       - id: "opt-4"
         text: "15"
         misconception_id: "SUBST_ORDER"
@@ -218,10 +218,6 @@ items:
     kind: "check"
     prompt: "A rectangle has width x and length x + 4. Write an expression for its perimeter."
     options:
-      - id: "opt-1"
-        text: "4x + 8"
-        misconception_id: null
-        note: "Correct: P = 2(x + x + 4) = 4x + 8"
       - id: "opt-2"
         text: "2x + 4"
         misconception_id: "LIKE_UNLIKE"
@@ -234,6 +230,10 @@ items:
         text: "4x"
         misconception_id: "LIKE_UNLIKE"
         note: "Dropped constant"
+      - id: "opt-1"
+        text: "4x + 8"
+        misconception_id: null
+        note: "Correct: P = 2(x + x + 4) = 4x + 8"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -279,14 +279,14 @@ items:
     kind: "practice"
     prompt: "Simplify 4x + 3x - 1."
     options:
-      - id: "opt-1"
-        text: "7x - 1"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "7x + 1"
         misconception_id: "LIKE_UNLIKE"
         note: "Sign error on constant"
+      - id: "opt-1"
+        text: "7x - 1"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-3"
         text: "12x - 1"
         misconception_id: "LIKE_UNLIKE"
@@ -309,10 +309,6 @@ items:
     kind: "practice"
     prompt: "If x = 5, evaluate 3x - 2."
     options:
-      - id: "opt-1"
-        text: "13"
-        misconception_id: null
-        note: "Correct: 3×5-2=13"
       - id: "opt-2"
         text: "15"
         misconception_id: "SUBST_ORDER"
@@ -321,6 +317,10 @@ items:
         text: "8"
         misconception_id: "SUBST_ORDER"
         note: "5-2=3? or 3+5=8"
+      - id: "opt-1"
+        text: "13"
+        misconception_id: null
+        note: "Correct: 3×5-2=13"
       - id: "opt-4"
         text: "17"
         misconception_id: "SUBST_ORDER"
@@ -339,10 +339,6 @@ items:
     kind: "practice"
     prompt: "Simplify -4x + (-2x)."
     options:
-      - id: "opt-1"
-        text: "-6x"
-        misconception_id: null
-        note: "Correct: -4 + (-2) = -6"
       - id: "opt-2"
         text: "-2x"
         misconception_id: "LIKE_NEG_COEFF"
@@ -355,6 +351,10 @@ items:
         text: "-8x"
         misconception_id: "LIKE_NEG_COEFF"
         note: "Multiplied coefficients"
+      - id: "opt-1"
+        text: "-6x"
+        misconception_id: null
+        note: "Correct: -4 + (-2) = -6"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -399,14 +399,14 @@ items:
     kind: "practice"
     prompt: "If x = 3, evaluate 2x + 4x."
     options:
-      - id: "opt-1"
-        text: "18"
-        misconception_id: null
-        note: "Correct: 2×3+4×3=6+12=18"
       - id: "opt-2"
         text: "10"
         misconception_id: "SUBST_ORDER"
         note: "2×3+4=10"
+      - id: "opt-1"
+        text: "18"
+        misconception_id: null
+        note: "Correct: 2×3+4×3=6+12=18"
       - id: "opt-3"
         text: "14"
         misconception_id: "SUBST_ORDER"
@@ -429,10 +429,6 @@ items:
     kind: "practice"
     prompt: "Simplify -3a + (-5a) + 4."
     options:
-      - id: "opt-1"
-        text: "-8a + 4"
-        misconception_id: null
-        note: "Correct: -3 + (-5) = -8"
       - id: "opt-2"
         text: "-2a + 4"
         misconception_id: "LIKE_NEG_COEFF"
@@ -441,6 +437,10 @@ items:
         text: "8a + 4"
         misconception_id: "LIKE_NEG_COEFF"
         note: "Two negatives make positive"
+      - id: "opt-1"
+        text: "-8a + 4"
+        misconception_id: null
+        note: "Correct: -3 + (-5) = -8"
       - id: "opt-4"
         text: "-15a + 4"
         misconception_id: "LIKE_NEG_COEFF"
@@ -460,10 +460,6 @@ items:
     kind: "retest"
     prompt: "Simplify 4x + 3x - 1."
     options:
-      - id: "opt-1"
-        text: "7x - 1"
-        misconception_id: null
-        note: "Correct"
       - id: "opt-2"
         text: "7x + 1"
         misconception_id: "LIKE_UNLIKE"
@@ -476,6 +472,10 @@ items:
         text: "4x + 2"
         misconception_id: "LIKE_UNLIKE"
         note: "Combined 3x and -1"
+      - id: "opt-1"
+        text: "7x - 1"
+        misconception_id: null
+        note: "Correct"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
@@ -520,14 +520,14 @@ items:
     kind: "retest"
     prompt: "Simplify -4x + (-2x)."
     options:
-      - id: "opt-1"
-        text: "-6x"
-        misconception_id: null
-        note: "Correct: -4 + (-2) = -6"
       - id: "opt-2"
         text: "-2x"
         misconception_id: "LIKE_NEG_COEFF"
         note: "Subtracted instead of adding negatives"
+      - id: "opt-1"
+        text: "-6x"
+        misconception_id: null
+        note: "Correct: -4 + (-2) = -6"
       - id: "opt-3"
         text: "6x"
         misconception_id: "LIKE_NEG_COEFF"
@@ -550,10 +550,6 @@ items:
     kind: "retest"
     prompt: "Simplify 6y - 2y + 3."
     options:
-      - id: "opt-1"
-        text: "4y + 3"
-        misconception_id: null
-        note: "Correct: 6y - 2y = 4y"
       - id: "opt-2"
         text: "4y"
         misconception_id: "LIKE_UNLIKE"
@@ -562,6 +558,10 @@ items:
         text: "8y + 3"
         misconception_id: "LIKE_UNLIKE"
         note: "Added: 6y + 2y = 8y"
+      - id: "opt-1"
+        text: "4y + 3"
+        misconception_id: null
+        note: "Correct: 6y - 2y = 4y"
       - id: "opt-4"
         text: "12y"
         misconception_id: "LIKE_UNLIKE"
@@ -580,10 +580,6 @@ items:
     kind: "retest"
     prompt: "If y = 4, evaluate 2y + 3y."
     options:
-      - id: "opt-1"
-        text: "20"
-        misconception_id: null
-        note: "Correct: 2×4+3×4=8+12=20"
       - id: "opt-2"
         text: "11"
         misconception_id: "SUBST_ORDER"
@@ -596,6 +592,10 @@ items:
         text: "9"
         misconception_id: "LIKE_UNLIKE"
         note: "2+3=5? or 4+5=9"
+      - id: "opt-1"
+        text: "20"
+        misconception_id: null
+        note: "Correct: 2×4+3×4=8+12=20"
       - id: "opt-5"
         text: "I'm not sure yet"
         misconception_id: null
